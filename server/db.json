@@ -1,0 +1,31 @@
+{
+  "vehicles": [
+    {
+      "id": 1,
+      "model": "Yaris",
+      "brand": "Toyota",
+      "year": "2007.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://example.com/car.jpg",
+      "price": 80
+    },
+    {
+      "id": 2,
+      "model": "Yaris",
+      "brand": "Toyota",
+      "year": "2007.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://example.com/car.jpg",
+      "price": 80
+    },
+    {
+      "id": 3,
+      "model": "Yaris",
+      "brand": "Toyota",
+      "year": "2007.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://example.com/car.jpg",
+      "price": 80
+    }
+  ]
+}
