@@ -10,8 +10,8 @@ import {MatButton} from '@angular/material/button';
 @Component({
   selector: 'app-navigation-view',
   imports: [CommonModule, MatCardModule, TranslateModule, MatButton],
-  templateUrl: './navigation-view.component.html',
-  styleUrls: ['./navigation-view.component.css']
+  templateUrl: './navigation-interface.component.html',
+  styleUrls: ['./navigation-interface.component.css']
 })
 export class NavigationViewComponent implements OnInit {
   publishedVehiclesData: PublishedVehicles;
@@ -39,3 +39,4 @@ export class NavigationViewComponent implements OnInit {
     this.getAllPublishedVehicles();
   }
 }
+
