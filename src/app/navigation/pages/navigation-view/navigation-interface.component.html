@@ -2,8 +2,11 @@
   <button mat-raised-button color="primary" (click)="toggleSortOrder()">
     Ordenar por precio: {{ isDescending ? 'Mayor a menor' : 'Menor a mayor' }}
   </button>
+  <button mat-raised-button color="warn" (click)="resetOrder()">
+    Restablecer
+  </button>
 </div>
-<div class="card-container">
+<<div class="card-container">
   <mat-card *ngFor="let vehicle of dataSource.data" class="vehicle-card">
     <mat-card-header>
       <mat-card-title>{{ vehicle.brand }} {{ vehicle.model }}</mat-card-title>
@@ -13,6 +16,10 @@
     <mat-card-content>
       <p>{{ vehicle.description }}</p>
       <p><strong>Precio:</strong> {{ vehicle.price | currency }}</p>
+      <p><strong>Rating:</strong> {{ vehicle.rating }}</p>
     </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="openRatingDialog(vehicle)">Rate</button>
+    </mat-card-actions>
   </mat-card>
 </div>
