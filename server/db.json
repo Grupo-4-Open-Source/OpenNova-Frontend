@@ -1,31 +1,60 @@
 {
-  "vehicles": [
+  "publishedVehicles": [
     {
       "id": 1,
       "model": "Yaris",
       "brand": "Toyota",
       "year": "2007.",
       "description": "Estoy alquilando mi vehiculo",
-      "image": "https://example.com/car.jpg",
+      "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
       "price": 80
     },
     {
       "id": 2,
-      "model": "Yaris",
-      "brand": "Toyota",
-      "year": "2007.",
+      "model": "Sentra",
+      "brand": "Nissan",
+      "year": "1999.",
       "description": "Estoy alquilando mi vehiculo",
-      "image": "https://example.com/car.jpg",
-      "price": 80
+      "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
+      "price": 60
     },
     {
       "id": 3,
+      "model": "Civic",
+      "brand": "Honda",
+      "year": "2024.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
+      "price": 200
+    },
+    {
+      "id": 4,
       "model": "Yaris",
       "brand": "Toyota",
       "year": "2007.",
       "description": "Estoy alquilando mi vehiculo",
-      "image": "https://example.com/car.jpg",
+      "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
       "price": 80
+    },
+    {
+      "id": 5,
+      "model": "Sentra",
+      "brand": "Nissan",
+      "year": "1999.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
+      "price": 60
+    },
+    {
+      "id": 6,
+      "model": "Civic",
+      "brand": "Honda",
+      "year": "2024.",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
+      "price": 200
     }
+  ],
+  "myPublishedVehicles": [
   ]
 }
