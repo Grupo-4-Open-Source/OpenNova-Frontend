@@ -10,6 +10,7 @@ import {
   MatCardImage,
   MatCardTitle
 } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reserved-cards',
@@ -31,7 +32,9 @@ export class ReservedCardsComponent implements OnInit {
   displayedVehicles: PublishedVehicles[] = [];
   limit = 4;
 
-  constructor(private reservedService: ReservedService) {}
+  constructor(
+    private reservedService: ReservedService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getReservedVehicles();
@@ -45,6 +48,6 @@ export class ReservedCardsComponent implements OnInit {
   }
 
   showAll(): void {
-    this.displayedVehicles = this.vehicles.reverse();
+    this.router.navigate(['/']);
   }
 }

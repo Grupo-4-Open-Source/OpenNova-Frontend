@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { PublishedVehicles } from '../../../navigation/model/published-vehicles.entity';
 import { FeaturedVehiclesService } from '../../services/featured-vehicles.service';
+import { Router } from '@angular/router';
 
 interface RatedVehicle extends PublishedVehicles {
   rating?: number;
@@ -20,7 +21,9 @@ export class FeaturedCardsComponent implements OnInit {
   displayedVehicles: RatedVehicle[] = [];
   @Input() limit: number = 4;
 
-  constructor(private featuredVehiclesService: FeaturedVehiclesService) {}
+  constructor(
+    private featuredVehiclesService: FeaturedVehiclesService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getFeaturedVehicles();
@@ -35,6 +38,6 @@ export class FeaturedCardsComponent implements OnInit {
   }
 
   showAll(): void {
-    this.displayedVehicles = [...this.vehicles];
+    this.router.navigate(['/']);
   }
 }

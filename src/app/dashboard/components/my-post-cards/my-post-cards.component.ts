@@ -10,6 +10,7 @@ import {
   MatCardImage,
   MatCardTitle
 } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-post-cards',
@@ -31,7 +32,9 @@ export class MyPostCardsComponent implements OnInit {
   displayedVehicles: PublishedVehicles[] = [];
   limit = 4;
 
-  constructor(private myPostService: MyPostService) {}
+  constructor(
+    private myPostService: MyPostService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getMyPostVehicles();
@@ -45,6 +48,6 @@ export class MyPostCardsComponent implements OnInit {
   }
 
   showAll(): void {
-    this.displayedVehicles = this.vehicles.reverse();
+    this.router.navigate(['/']);
   }
 }
