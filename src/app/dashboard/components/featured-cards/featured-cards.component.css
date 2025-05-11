@@ -1,0 +1,40 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Tamaño mínimo reducido a 240px */
+  gap: 16px;
+  padding: 16px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 240px; /* Limita el ancho máximo de las tarjetas */
+  height: auto; /* Mantén la altura automática */
+  margin: 0 auto; /* Centra las tarjetas */
+}
+
+mat-card-header {
+  font-size: 14px; /* Reduce el tamaño de la fuente en el encabezado */
+}
+
+mat-card-title {
+  font-size: 16px; /* Reduce el tamaño del título */
+}
+
+mat-card-subtitle {
+  font-size: 12px;
+}
+
+mat-card-content p {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+mat-card-actions {
+  justify-content: center;
+}
+
+button {
+  font-size: 12px;
+  padding: 6px 12px;
+}
