@@ -8,7 +8,7 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
       "price": 80,
-      "rating": 5
+      "rating": 3
     },
     {
       "id": 2,
@@ -18,7 +18,7 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
       "price": 60,
-      "rating": 0
+      "rating": 4
     },
     {
       "id": 3,
@@ -28,7 +28,7 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
       "price": 200,
-      "rating": 0
+      "rating": 2
     },
     {
       "id": 4,
@@ -58,8 +58,24 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
       "price": 200,
-      "rating": 0
+      "rating": 4
     }
   ],
-  "myPublishedVehicles": []
+  "myPublishedVehicles": [],
+
+  "myBookedVehicles": [],
+
+  "userProfile": [
+    {
+      "profilePic":"",
+      "fullName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "birthday": "",
+      "dniPic" : "",
+      "licensePic" : ""
+    }
+  ]
+
 }
