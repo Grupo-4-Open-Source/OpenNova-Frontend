@@ -61,9 +61,31 @@
       "rating": 4
     }
   ],
-  "myPublishedVehicles": [],
+  "myPublishedVehicles": [
+    {
+      "id": 1,
+      "model": "Civic",
+      "brand": "Honda",
+      "year": "2024",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
+      "price": 200,
+      "publishedDate":""
+    }
+  ],
 
-  "myBookedVehicles": [],
+  "myBookedVehicles": [
+    {
+      "id": 1,
+      "model": "Civic",
+      "brand": "Honda",
+      "year": "2024",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
+      "price": 200,
+      "rating": 4
+    }
+  ],
 
   "userProfile": [
     {
