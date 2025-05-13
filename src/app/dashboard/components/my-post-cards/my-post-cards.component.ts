@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MyPostService } from '../../services/my-post.service';
 import { PublishedVehicles } from '../../../navigation/model/published-vehicles.entity';
 import { CurrencyPipe, NgForOf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MatCard,
   MatCardActions,
@@ -23,7 +24,8 @@ import { Router } from '@angular/router';
     MatCardHeader,
     MatCardImage,
     MatCardTitle,
-    NgForOf
+    NgForOf,
+    MatButtonModule
   ],
   styleUrls: ['./my-post-cards.component.css']
 })

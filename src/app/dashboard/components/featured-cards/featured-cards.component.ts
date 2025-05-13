@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { PublishedVehicles } from '../../../navigation/model/published-vehicles.entity';
 import { FeaturedVehiclesService } from '../../services/featured-vehicles.service';
 import { Router } from '@angular/router';
@@ -12,7 +13,7 @@ interface RatedVehicle extends PublishedVehicles {
 @Component({
   selector: 'app-featured-cards',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule],
   templateUrl: './featured-cards.component.html',
   styleUrls: ['./featured-cards.component.css']
 })
