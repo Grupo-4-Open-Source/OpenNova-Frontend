@@ -1,0 +1,35 @@
+
+<h4>{{ editMode ? 'Edit Vehicle' : 'New Vehicle' }}</h4>
+<div class="form-section">
+
+  <form (submit)="onSubmit()" #vehicleForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="Model" name="model" required [(ngModel)]="vehicle.model">
+    </mat-form-field>
+    <mat-form-field id="brand-form-field">
+      <input matInput placeholder="Brand" name="brand" required [(ngModel)]="vehicle.brand">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" placeholder="Year" name="year" required [(ngModel)]="vehicle.year">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Description" name="description" required [(ngModel)]="vehicle.description">
+  </mat-form-field>
+    <mat-form-field>
+      <input matInput type="image" placeholder="Image" name="image" required [(ngModel)]="vehicle.image">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" placeholder="Price" name="price" required [(ngModel)]="vehicle.price">
+    </mat-form-field>
+    <ng-container>
+      @if (editMode === true) {
+      <button mat-raised-button color="primary">Update</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      }
+      @else {
+      <button mat-raised-button color="primary">Add</button>
+      }
+    </ng-container>
+  </form>
+
+</div>

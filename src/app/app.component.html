@@ -1,18 +1,18 @@
 <mat-toolbar color="primary">
   @if (sidenav.mode === 'over') {
-    <button mat-icon-button (click)="sidenav.toggle()" >
-      @if (sidenav.opened) {
-        <mat-icon>close</mat-icon>
-      } @else {
-        <mat-icon>menu</mat-icon>
-      }
-    </button>
+  <button mat-icon-button (click)="sidenav.toggle()" >
+    @if (sidenav.opened) {
+    <mat-icon>close</mat-icon>
+    } @else {
+    <mat-icon>menu</mat-icon>
+    }
+  </button>
   }
   <mat-icon matListItemIcon>rocket_launch</mat-icon>
   <span>Automovil-Unite</span>
   <span class="mat-spacer"></span>
   @for(option of options; track option.title) {
-    <a mat-button [routerLink]="option.path">{{ option.title }}</a>
+  <a mat-button [routerLink]="option.path">{{ option.title }}</a>
   }
   <button mat-icon-button>
     <mat-icon>share</mat-icon>
@@ -26,10 +26,10 @@
   <mat-sidenav>
     <mat-nav-list>
       @for(option of options; track option.title) {
-        <mat-list-item (click)="sidenav.mode === 'over' && sidenav.toggle()" [routerLink]="option.path">
-          <mat-icon matListItemIcon>{{ option.icon }}</mat-icon>
-          {{ option.title }}
-        </mat-list-item>
+      <mat-list-item (click)="sidenav.mode === 'over' && sidenav.toggle()" [routerLink]="option.path">
+        <mat-icon matListItemIcon>{{ option.icon }}</mat-icon>
+        {{ option.title }}
+      </mat-list-item>
       }
     </mat-nav-list>
   </mat-sidenav>

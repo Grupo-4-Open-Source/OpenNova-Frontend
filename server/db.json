@@ -28,7 +28,7 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
       "price": 200,
-      "rating": 2
+      "rating": 5
     },
     {
       "id": 4,
@@ -70,10 +70,9 @@
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
       "price": 200,
-      "publishedDate":""
+      "publishedDate": ""
     }
   ],
-
   "myBookedVehicles": [
     {
       "id": 1,
@@ -86,18 +85,16 @@
       "rating": 4
     }
   ],
-
   "userProfile": [
     {
-      "profilePic":"",
+      "profilePic": "",
       "fullName": "",
       "email": "",
       "phone": "",
       "address": "",
       "birthday": "",
-      "dniPic" : "",
-      "licensePic" : ""
+      "dniPic": "",
+      "licensePic": ""
     }
   ]
-
 }
