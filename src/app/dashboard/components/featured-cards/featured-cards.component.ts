@@ -39,6 +39,6 @@ export class FeaturedCardsComponent implements OnInit {
   }
 
   showAll(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/navigation']);
   }
 }

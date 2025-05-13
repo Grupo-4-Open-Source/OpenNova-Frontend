@@ -23,7 +23,10 @@ export class AppComponent implements OnInit {
   @ViewChild(MatSidenav, {static: true}) sidenav!: MatSidenav;
   options = [
     { icon: 'home', path: '/home', title: 'Home'},
-    { icon: 'info', path:'/about', title: 'About'}
+    { icon: 'info', path:'/about', title: 'About'},
+    { icon: 'navigation', path:'/navigation', title: 'Navigation'},
+    { icon: 'publications', path:'/publications', title: 'Publications'},
+
   ];
   constructor(private translate: TranslateService, private observer: BreakpointObserver) {
     translate.setDefaultLang('en');

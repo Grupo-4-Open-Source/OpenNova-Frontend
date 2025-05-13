@@ -6,10 +6,9 @@ import {NavigationViewComponent} from './navigation/pages/navigation-view/naviga
 import {DashboardComponent} from './dashboard/components/dashboard.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: DashboardComponent },
   { path: 'about', component: AboutComponent },
   { path: 'navigation', component: NavigationViewComponent }, // Nueva ruta añadida
-  { path: 'dashboard', component: DashboardComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -50,6 +50,6 @@ export class MyPostCardsComponent implements OnInit {
   }
 
   showAll(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/publications']);
   }
 }
