@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { RatingDialogComponent } from '../../components/rating-dialog/rating-dialog.component';
+import { BookedVehicles } from '../../model/booked-vehicles.entity';
 
 @Component({
   selector: 'app-navigation-view',
@@ -39,12 +40,25 @@ export class NavigationViewComponent implements OnInit {
     this.dataSource = new MatTableDataSource<any>();
   }
 
+
   private getAllPublishedVehicles(): void {
     this.navigationService.getAll()
       .subscribe((response: any) => {
         this.originalData = [...response];
         this.dataSource.data = response;
       });
+  }
+  reserveVehicle(vehicle: PublishedVehicles): void {
+    const bookedVehicle = new BookedVehicles();
+    Object.assign(bookedVehicle, vehicle); // Copia los atributos
+
+    this.http.post('http://localhost:3000/myBookedVehicles', bookedVehicle).subscribe({
+      next: () => alert('Vehículo reservado con éxito'),
+      error: (err) => {
+        console.error('Error al reservar el vehículo:', err);
+        alert('Error al reservar el vehículo. Por favor, intenta nuevamente.');
+      }
+    });
   }
 
   toggleSortOrder(): void {
@@ -72,6 +86,8 @@ export class NavigationViewComponent implements OnInit {
       }
     });
   }
+
+
 
   private updateRating(id: number, rating: number): void {
     this.http.patch(`http://localhost:3000/publishedVehicles/${id}`, { rating }).subscribe();

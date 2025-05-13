@@ -1,3 +1,4 @@
+<h1>Navigation</h1>
 <div>
   <button mat-raised-button color="primary" (click)="toggleSortOrder()">
     Ordenar por precio: {{ isDescending ? 'Mayor a menor' : 'Menor a mayor' }}
@@ -6,7 +7,7 @@
     Restablecer
   </button>
 </div>
-<<div class="card-container">
+<div class="card-container">
   <mat-card *ngFor="let vehicle of dataSource.data" class="vehicle-card">
     <mat-card-header>
       <mat-card-title>{{ vehicle.brand }} {{ vehicle.model }}</mat-card-title>
@@ -19,7 +20,8 @@
       <p><strong>Rating:</strong> {{ vehicle.rating }}</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="accent" (click)="openRatingDialog(vehicle)">Rate</button>
+      <button mat-button color="primary" (click)="openRatingDialog(vehicle)">Calificar</button>
+      <button mat-button color="accent" (click)="reserveVehicle(vehicle)">Reservar</button>
     </mat-card-actions>
   </mat-card>
 </div>

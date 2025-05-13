@@ -22,8 +22,7 @@ export class AppComponent implements OnInit {
   title = 'OpenNova-Frontend';
   @ViewChild(MatSidenav, {static: true}) sidenav!: MatSidenav;
   options = [
-    { icon: 'home', path: '/home', title: 'Home'},
-    { icon: 'info', path:'/about', title: 'About'},
+    { icon: 'dashboard', path: '/dashboard', title: 'Dashboard'},
     { icon: 'navigation', path:'/navigation', title: 'Navigation'},
     { icon: 'publications', path:'/publications', title: 'Publications'},
 
