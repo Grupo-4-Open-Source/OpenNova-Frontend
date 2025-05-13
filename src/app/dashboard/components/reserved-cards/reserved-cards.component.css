@@ -3,26 +3,29 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
   padding: 16px;
+  position: relative;
+}
+
+.card-checkbox {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: white;
+  border-radius: 4px;
+  padding: 2px;
 }
 
 .product-card {
   display: flex;
   flex-direction: column;
   max-width: 240px;
-  height: auto;
   margin: 0 auto;
-}
-
-mat-card-header {
-  font-size: 14px;
+  position: relative;
 }
 
 mat-card-title {
   font-size: 16px;
-}
-
-mat-card-subtitle {
-  font-size: 12px;
 }
 
 mat-card-content p {
@@ -30,11 +33,21 @@ mat-card-content p {
   line-height: 1.4;
 }
 
-mat-card-actions {
+.actions {
   justify-content: center;
 }
 
-button {
-  font-size: 12px;
-  padding: 6px 12px;
+.multi-cancel {
+  text-align: center;
+  margin: 16px;
+}
+
+.multi-select-toggle {
+  text-align: right;
+  margin: 16px;
+}
+
+.show-more {
+  text-align: center;
+  margin: 16px;
 }

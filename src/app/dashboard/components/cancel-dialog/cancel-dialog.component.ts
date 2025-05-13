@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-cancel-dialog',
@@ -9,10 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './cancel-dialog.component.html',
   styleUrls: ['./cancel-dialog.component.css'],
   imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatButtonModule
+    MatDialogModule,
+    MatButtonModule,
+    NgIf
   ]
 })
 export class CancelDialogComponent {
@@ -21,11 +20,11 @@ export class CancelDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  confirmCancel(): void {
-    this.dialogRef.close(true);
-  }
-
   closeDialog(): void {
     this.dialogRef.close(false);
+  }
+
+  confirmCancel(): void {
+    this.dialogRef.close(true);
   }
 }

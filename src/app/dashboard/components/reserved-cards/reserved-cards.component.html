@@ -1,21 +1,46 @@
+<div class="multi-select-toggle">
+  <button mat-raised-button color="primary" (click)="toggleMultiSelect()">
+    {{ isMultiSelectMode ? 'Cancel Multi-Select' : 'Cancel Multiple Reservations' }}
+  </button>
+</div>
+
 <div class="product-grid">
   <mat-card *ngFor="let vehicle of displayedVehicles" class="product-card">
+
+    <mat-checkbox
+      *ngIf="isMultiSelectMode"
+      class="card-checkbox"
+      (change)="toggleSelection(vehicle.id)"
+      [checked]="selectedVehicles.has(vehicle.id)">
+    </mat-checkbox>
+
     <mat-card-header>
-      <mat-card-title>{{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.year }})</mat-card-title>
+      <mat-card-title>
+        {{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.year }})
+      </mat-card-title>
     </mat-card-header>
+
     <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.model }}" />
+
     <mat-card-content>
       <p>{{ vehicle.description }}</p>
       <p><strong>Price:</strong> {{ vehicle.price | currency:'USD' }}</p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="cancelReservation(vehicle)">
+
+    <mat-card-actions class="actions">
+      <button *ngIf="!isMultiSelectMode" mat-raised-button color="warn" (click)="cancelReservation(vehicle)">
         Cancel Reservation
       </button>
     </mat-card-actions>
   </mat-card>
 </div>
 
+<div class="multi-cancel" *ngIf="isMultiSelectMode && selectedVehicles.size > 0">
+  <button mat-raised-button color="warn" (click)="confirmBatchCancel()">
+    Delete Selected ({{ selectedVehicles.size }})
+  </button>
+</div>
+
 <div class="show-more">
-  <button mat-raised-button color="accent" (click)="showAll()">Show more</button>
+  <button mat-raised-button color="accent" (click)="showAll()">Show More</button>
 </div>

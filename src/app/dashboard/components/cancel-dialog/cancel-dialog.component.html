@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Cancel Reservation</h2>
 <mat-dialog-content>
-  Are you sure you want to cancel this reservation?
+  Are you sure you want to cancel {{ data?.vehicle ? 'this reservation' : 'the selected reservations' }}?
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog()">No</button>
