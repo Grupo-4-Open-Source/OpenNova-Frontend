@@ -1,0 +1,8 @@
+mat-dialog-content {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+mat-dialog-actions {
+  margin-top: 15px;
+}
