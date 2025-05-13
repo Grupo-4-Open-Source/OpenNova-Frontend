@@ -1,0 +1,19 @@
+<div class="product-grid">
+  <mat-card *ngFor="let vehicle of displayedVehicles" class="product-card">
+    <mat-card-header>
+      <mat-card-title>{{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.year }})</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.model }}" />
+    <mat-card-content>
+      <p>{{ vehicle.description }}</p>
+      <p><strong>Price:</strong> {{ vehicle.price | currency:'USD' }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary">View Details</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class="show-more">
+  <button mat-raised-button color="accent" (click)="showAll()">Show More</button>
+</div>

@@ -1,0 +1,53 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+}
+
+.card-checkbox {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: white;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 240px;
+  margin: 0 auto;
+  position: relative;
+}
+
+mat-card-title {
+  font-size: 16px;
+}
+
+mat-card-content p {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.actions {
+  justify-content: center;
+}
+
+.multi-cancel {
+  text-align: center;
+  margin: 16px;
+}
+
+.multi-select-toggle {
+  text-align: right;
+  margin: 16px;
+}
+
+.show-more {
+  text-align: center;
+  margin: 16px;
+}

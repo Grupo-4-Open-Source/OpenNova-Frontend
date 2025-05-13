@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Calificar</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Calificación</mat-label>
+    <input matInput type="number" [(ngModel)]="rating" min="0" max="5" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button mat-button color="primary" (click)="closeDialog()">Aceptar</button>
+</mat-dialog-actions>
