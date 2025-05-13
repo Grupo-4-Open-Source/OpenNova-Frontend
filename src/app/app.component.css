@@ -14,7 +14,11 @@ mat-sidenav {
   margin: 0 auto;
   font-size: 16px;
   background: #fff;
+
 }
 mat-sidenav-container {
   height: calc(100svh - 65px);
+}
+h1 {
+  margin: 0;
 }

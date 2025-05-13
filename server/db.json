@@ -5,9 +5,9 @@
       "model": "Yaris",
       "brand": "Toyota",
       "year": "2007",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Vehículo compacto, ideal para la ciudad, económico y confiable.",
       "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
-      "price": 80,
+      "price": 85,
       "rating": 3
     },
     {
@@ -15,9 +15,9 @@
       "model": "Sentra",
       "brand": "Nissan",
       "year": "1999",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Sedán clásico, cómodo y con excelente rendimiento en carretera.",
       "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
-      "price": 60,
+      "price": 65,
       "rating": 4
     },
     {
@@ -25,40 +25,120 @@
       "model": "Civic",
       "brand": "Honda",
       "year": "2024",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Modelo moderno con tecnología híbrida, ideal para viajes largos.",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
-      "price": 200,
-      "rating": 2
+      "price": 210,
+      "rating": 5
     },
     {
       "id": 4,
       "model": "Yaris",
       "brand": "Toyota",
       "year": "2007",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Vehículo compacto, perfecto para uso diario y muy económico.",
       "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
       "price": 80,
-      "rating": 0
+      "rating": 2
     },
     {
       "id": 5,
       "model": "Sentra",
       "brand": "Nissan",
       "year": "1999",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Sedán confiable con amplio espacio interior.",
       "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
       "price": 60,
-      "rating": 0
+      "rating": 3
     },
     {
       "id": 6,
       "model": "Civic",
       "brand": "Honda",
       "year": "2024",
-      "description": "Estoy alquilando mi vehiculo",
+      "description": "Vehículo de lujo con diseño futurista y excelente rendimiento.",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
+      "price": 220,
+      "rating": 5
+    },
+    {
+      "id": 7,
+      "model": "Corolla",
+      "brand": "Toyota",
+      "year": "2020",
+      "description": "Sedán moderno con gran eficiencia de combustible.",
+      "image": "https://toyota.com/corolla2020.jpg",
+      "price": 150,
+      "rating": 4
+    },
+    {
+      "id": 8,
+      "model": "Altima",
+      "brand": "Nissan",
+      "year": "2018",
+      "description": "Vehículo espacioso y cómodo, ideal para familias.",
+      "image": "https://nissan.com/altima2018.jpg",
+      "price": 140,
+      "rating": 4
+    },
+    {
+      "id": 9,
+      "model": "Accord",
+      "brand": "Honda",
+      "year": "2022",
+      "description": "Sedán premium con tecnología avanzada y diseño elegante.",
+      "image": "https://honda.com/accord2022.jpg",
+      "price": 180,
+      "rating": 5
+    },
+    {
+      "id": 10,
+      "model": "Rav4",
+      "brand": "Toyota",
+      "year": "2021",
+      "description": "SUV versátil con gran capacidad de carga y tracción.",
+      "image": "https://toyota.com/rav42021.jpg",
       "price": 200,
       "rating": 4
+    },
+    {
+      "id": 11,
+      "model": "Rogue",
+      "brand": "Nissan",
+      "year": "2023",
+      "description": "SUV compacto con excelente tecnología de seguridad.",
+      "image": "https://nissan.com/rogue2023.jpg",
+      "price": 190,
+      "rating": 1
+    },
+    {
+      "id": 12,
+      "model": "CR-V",
+      "brand": "Honda",
+      "year": "2023",
+      "description": "SUV híbrido con gran eficiencia y espacio interior.",
+      "image": "https://honda.com/crv2023.jpg",
+      "price": 210,
+      "rating": 5
+    },
+    {
+      "id": 13,
+      "model": "Camry",
+      "brand": "Toyota",
+      "year": "2019",
+      "description": "Sedán confiable con diseño elegante y gran rendimiento.",
+      "image": "https://toyota.com/camry2019.jpg",
+      "price": 160,
+      "rating": 4
+    },
+    {
+      "id": 14,
+      "model": "Pathfinder",
+      "brand": "Nissan",
+      "year": "2020",
+      "description": "SUV robusto con capacidad todoterreno.",
+      "image": "https://nissan.com/pathfinder2020.jpg",
+      "price": 250,
+      "rating": 5
     }
   ],
   "myPublishedVehicles": [
@@ -75,23 +155,23 @@
   ],
   "myBookedVehicles": [
     {
-      "id": 1,
+      "id": 3,
       "model": "Civic",
       "brand": "Honda",
       "year": "2024",
       "description": "Estoy alquilando mi vehiculo",
       "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
       "price": 200,
-      "rating": 4
+      "rating": 2
     },
     {
-      "id": 2,
-      "model": "New Civic",
-      "brand": "Honda",
-      "year": "2024",
-      "description": "Estoy alquilando mi vehiculo",
-      "image": "https://fuelcarmagazine.com/wp-content/uploads/2024/05/Honda-Civic-2025-hibrido.jpg",
-      "price": 200,
+      "id": 7,
+      "model": "Corolla",
+      "brand": "Toyota",
+      "year": "2020",
+      "description": "Sedán moderno con gran eficiencia de combustible.",
+      "image": "https://toyota.com/corolla2020.jpg",
+      "price": 150,
       "rating": 4
     }
   ],
