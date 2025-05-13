@@ -11,7 +11,7 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'navigation', component: NavigationViewComponent }, // Nueva ruta añadida
   { path: 'dashboard', component: DashboardComponent }, // Nueva ruta añadida
-  { path: 'publications/vehicles', component: VehicleManagementComponent }, // Nueva ruta añadida
+  { path: 'publications/vehicles', component: VehicleManagementComponent }, //Nueva ruta añadida
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

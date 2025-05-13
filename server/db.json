@@ -96,5 +96,27 @@
       "dniPic": "",
       "licensePic": ""
     }
-  ]
+  ],
+  "vehicles": [
+    {
+      "id": 1,
+      "model": "Yaris",
+      "brand": "Toyota",
+      "year": "2007",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://grupopana.com.pe/hs-fs/hubfs/yaris_blanco21040_01.jpg?width=900&name=yaris_blanco21040_01.jpg",
+      "price": 80,
+      "rating": 3
+    },
+    {
+      "id": 2,
+      "model": "Sentra",
+      "brand": "Nissan",
+      "year": "1999",
+      "description": "Estoy alquilando mi vehiculo",
+      "image": "https://www.automoli.com/common/vehicles/_assets/img/gallery/f51/nissan-sentra-b14.jpg",
+      "price": 60,
+      "rating": 4
+    }]
+
 }

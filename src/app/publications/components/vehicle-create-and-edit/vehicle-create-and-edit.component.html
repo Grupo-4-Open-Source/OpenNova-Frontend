@@ -1,4 +1,4 @@
-
+<!-- Create and Edit Form -->
 <h4>{{ editMode ? 'Edit Vehicle' : 'New Vehicle' }}</h4>
 <div class="form-section">
 
@@ -6,21 +6,25 @@
     <mat-form-field>
       <input matInput placeholder="Model" name="model" required [(ngModel)]="vehicle.model">
     </mat-form-field>
-    <mat-form-field id="brand-form-field">
+    <mat-form-field>
       <input matInput placeholder="Brand" name="brand" required [(ngModel)]="vehicle.brand">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field id="year-form-field">
       <input matInput type="number" placeholder="Year" name="year" required [(ngModel)]="vehicle.year">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Description" name="description" required [(ngModel)]="vehicle.description">
-  </mat-form-field>
-    <mat-form-field>
-      <input matInput type="image" placeholder="Image" name="image" required [(ngModel)]="vehicle.image">
+      <input matInput placeholder="Image URL" name="image" required [(ngModel)]="vehicle.image">
     </mat-form-field>
-    <mat-form-field>
+
+    <input type="file" (change)="onImageSelected($event)" />
+    <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa" width="100" />
+
+
+    <mat-form-field id="price-form-field">
       <input matInput type="number" placeholder="Price" name="price" required [(ngModel)]="vehicle.price">
     </mat-form-field>
+
+
     <ng-container>
       @if (editMode === true) {
       <button mat-raised-button color="primary">Update</button>
@@ -31,5 +35,7 @@
       }
     </ng-container>
   </form>
+
+
 
 </div>

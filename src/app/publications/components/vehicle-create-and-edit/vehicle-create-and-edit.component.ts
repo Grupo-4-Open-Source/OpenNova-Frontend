@@ -5,6 +5,7 @@ import { FormsModule, NgForm } from "@angular/forms";
 import { MatFormField } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-vehicle-create-and-edit',
@@ -34,9 +35,13 @@ export class VehicleCreateAndEditComponent {
   }
 
   // Event Handlers
-
   onSubmit(): void {
     if (this.vehicleForm.form.valid) {
+       if (!this.validateImageUrl(this.vehicle.image)) {
+            console.error('La URL de la imagen no es válida');
+            return;  // No seguir si la URL no es válida
+          }
+
       let emitter: EventEmitter<Vehicle> = this.editMode ? this.vehicleUpdated : this.vehicleAdded;
       emitter.emit(this.vehicle);
       this.resetEditState();
@@ -49,4 +54,29 @@ export class VehicleCreateAndEditComponent {
     this.editCanceled.emit();
     this.resetEditState();
   }
+
+imagePreview: string | ArrayBuffer | null = null;
+selectedFile: File | null = null;
+
+onImageSelected(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+
+validateImageUrl(url: string): boolean {
+  const regex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i;
+  return regex.test(url);
+}
+
+
+
 }
