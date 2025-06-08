@@ -42,7 +42,7 @@ export class RentalService extends BaseService<Rental> {
    */
   private enrichRental(rental: Rental): Observable<Rental> {
     const observables: {
-      publicacion?: Observable<Publication | undefined>,
+      publication?: Observable<Publication | undefined>,
       renter?: Observable<User | undefined>,
       insurance?: Observable<Insurance | undefined>,
       pickupLocation?: Observable<Location | undefined>,
@@ -50,11 +50,11 @@ export class RentalService extends BaseService<Rental> {
     } = {};
 
     if (rental.publicationId && !rental.publication) {
-      observables.publicacion = this.publicationService.getPublicationById(rental.publicationId).pipe(
+      observables.publication = this.publicationService.getPublicationById(rental.publicationId).pipe(
         catchError(() => of(undefined))
       );
     } else {
-      observables.publicacion = of(rental.publication);
+      observables.publication = of(rental.publication);
     }
 
     if (rental.renterId && !rental.renter) {
@@ -94,7 +94,7 @@ export class RentalService extends BaseService<Rental> {
       map(results => {
         return {
           ...rental,
-          publicacion: results.publicacion ?? rental.publication,
+          publication: results.publication ?? rental.publication,
           renter: results.renter ?? rental.renter,
           insurance: results.insurance ?? rental.insurance,
           pickupLocation: results.pickupLocation ?? rental.pickupLocation,

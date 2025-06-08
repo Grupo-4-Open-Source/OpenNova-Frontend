@@ -131,6 +131,22 @@
       "description": "Moderno y muy rápido",
       "mainImageUrl": "https://puromotor.com/wp-content/uploads/2020/03/lamborghini-aventador-super-puromotor.jpg",
       "galleryImageUrls": []
+    },
+    {
+      "id": "XF5hRuoG6D5f2zfGZUtJe",
+      "ownerId": "user002",
+      "make": "Mercedes-Benz",
+      "model": "GLC 350",
+      "year": 2017,
+      "color": "Hyacinth Red",
+      "licensePlate": "E-751",
+      "currentMileage": 10,
+      "vehicleType": "COUPE",
+      "fuelType": "DIESEL",
+      "passengerCapacity": 5,
+      "description": "The GLC Coupe reflects our iconic Mercedes-Benz coupe design while symbolizing the diversity of our brand – it is both 'hot and cool',\" said Gorden Wagener, Head of Design at Daimler AG. \"With its design idiom of sensual purity, it perfectly embodies our styling philosophy while at the same time representing contemporary luxury.",
+      "mainImageUrl": "https://images.caricos.com/m/mercedes-benz/2017_mercedes-benz_glc_coupe/images/2560x1440/2017_mercedes-benz_glc_coupe_70_2560x1440.jpg",
+      "galleryImageUrls": []
     }
   ],
   "publication": [
@@ -167,20 +183,20 @@
       "publicationDate": "2025-06-08T00:53:04.573Z"
     },
     {
-      "id": "rrMTmEq7FI3MSabtYwL5T",
-      "title": "LAMBORGHINI 0 KM !",
-      "dailyPrice": 40,
+      "id": "rrNMbWA5zRKhdjEdUxeSO",
+      "title": "“Rent from $20/day – Limited Time Offer”",
+      "dailyPrice": 20,
       "weeklyPrice": null,
       "minRentalDays": 1,
       "maxRentalDays": 30,
-      "carRules": "NI UNA",
-      "pickupLocationId": "loc002",
+      "carRules": "No rules specified",
+      "pickupLocationId": "loc001",
       "isFeatured": true,
-      "vehicleId": "rO9Epu2f3zXKz3EcOTHGD",
+      "vehicleId": "XF5hRuoG6D5f2zfGZUtJe",
       "ownerId": "user002",
       "status": "ACTIVO",
       "availabilitySlots": [],
-      "publicationDate": "2025-06-08T02:20:36.599Z"
+      "publicationDate": "2025-06-08T10:07:00.637Z"
     }
   ],
   "rental": [
@@ -194,7 +210,7 @@
     },
     {
       "id": "33ZePv40loDV4nG1GPYxh",
-      "publicacionId": "pub001",
+      "publicationId": "pub001",
       "renterId": "user001",
       "insuranceId": "ins001",
       "bookingDate": "2025-06-08T00:20:36.605Z",
@@ -209,24 +225,6 @@
       "status": "PENDING_OWNER_APPROVAL",
       "pickupLocationId": "loc001",
       "dropoffLocationId": "loc001"
-    },
-    {
-      "id": "mwiaRXeBWcFSIQuKJxCGs",
-      "publicacionId": "rYz0YOBO4N_UdTp90ahMB",
-      "renterId": "user001",
-      "insuranceId": "ins001",
-      "bookingDate": "2025-06-08T01:59:06.791Z",
-      "startDate": "2025-06-10",
-      "endDate": "2025-06-19",
-      "baseCost": 270,
-      "insuranceCost": 45,
-      "platformCommission": 34.2,
-      "totalCost": 342,
-      "pickupMileage": 12,
-      "dropoffMileage": null,
-      "status": "PENDING_OWNER_APPROVAL",
-      "pickupLocationId": "loc002",
-      "dropoffLocationId": "loc002"
     }
   ],
   "review": [

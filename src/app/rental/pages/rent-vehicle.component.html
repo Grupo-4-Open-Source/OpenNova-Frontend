@@ -8,14 +8,14 @@
     <p>{{ successMessage }}</p>
   </div>
 
-  <div *ngIf="publicacion" class="publicacion-details">
+  <div *ngIf="publication" class="publicacion-details">
     <h3>Listing Details</h3>
     <div class="card-content">
-      <img [src]="publicacion.vehicle?.mainImageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image'" alt="Vehicle image">
-      <h4>{{ publicacion.vehicle?.make }} {{ publicacion.vehicle?.model }} ({{ publicacion.vehicle?.year }})</h4>
-      <p><strong>Daily Price:</strong> ${{ publicacion.dailyPrice }}</p>
-      <p><strong>Location:</strong> {{ publicacion.pickupLocation?.city }}</p>
-      <p><strong>Rules:</strong> {{ publicacion.carRules }}</p>
+      <img [src]="publication.vehicle?.mainImageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image'" alt="Vehicle image">
+      <h4>{{ publication.vehicle?.make }} {{ publication.vehicle?.model }} ({{ publication.vehicle?.year }})</h4>
+      <p><strong>Daily Price:</strong> ${{ publication.dailyPrice }}</p>
+      <p><strong>Location:</strong> {{ publication.pickupLocation?.city }}</p>
+      <p><strong>Rules:</strong> {{ publication.carRules }}</p>
     </div>
   </div>
 

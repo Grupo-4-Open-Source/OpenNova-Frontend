@@ -25,7 +25,7 @@ import { of } from 'rxjs';
 })
 export class RentVehicleComponent implements OnInit {
   publicacionId: string | null = null;
-  publicacion: Publication | undefined;
+  publication: Publication | undefined;
   rentForm: FormGroup;
   totalCost: number = 0;
   isLoading: boolean = false;
@@ -68,7 +68,7 @@ export class RentVehicleComponent implements OnInit {
       })
     ).subscribe(data => {
       if (data) {
-        this.publicacion = data;
+        this.publication = data;
         this.isLoading = false;
       } else {
 
@@ -82,7 +82,7 @@ export class RentVehicleComponent implements OnInit {
     const startDate = this.rentForm.get('startDate')?.value;
     const endDate = this.rentForm.get('endDate')?.value;
 
-    if (this.publicacion && startDate && endDate) {
+    if (this.publication && startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
 
@@ -90,7 +90,7 @@ export class RentVehicleComponent implements OnInit {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       if (diffDays > 0) {
-        this.totalCost = diffDays * this.publicacion.dailyPrice;
+        this.totalCost = diffDays * this.publication.dailyPrice;
         const insuranceDailyCost = 5;
         const insuranceCost = insuranceDailyCost * diffDays;
         const platformCommissionRate = 0.1;
@@ -106,7 +106,7 @@ export class RentVehicleComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.rentForm.invalid || !this.publicacion || this.totalCost <= 0) {
+    if (this.rentForm.invalid || !this.publication || this.totalCost <= 0) {
       this.errorMessage = 'Por favor, completa correctamente todos los campos y asegúrate de que el costo total sea válido.';
       this.rentForm.markAllAsTouched();
       this.isLoading = false;
@@ -122,22 +122,22 @@ export class RentVehicleComponent implements OnInit {
 
     const alquilerData: Rental = {
       id: newAlquilerId,
-      publicacionId: this.publicacion.id,
+      publicationId: this.publication.id,
       renterId: this.testRenterId,
       insuranceId: this.testInsuranceId,
       bookingDate: bookingDate,
       startDate: this.rentForm.value.startDate,
       endDate: this.rentForm.value.endDate,
-      baseCost: this.publicacion.dailyPrice * Math.ceil((new Date(this.rentForm.value.endDate).getTime() - new Date(this.rentForm.value.startDate).getTime()) / (1000 * 3600 * 24)),
+      baseCost: this.publication.dailyPrice * Math.ceil((new Date(this.rentForm.value.endDate).getTime() - new Date(this.rentForm.value.startDate).getTime()) / (1000 * 3600 * 24)),
       insuranceCost: 5 * Math.ceil((new Date(this.rentForm.value.endDate).getTime() - new Date(this.rentForm.value.startDate).getTime()) / (1000 * 3600 * 24)),
       platformCommission: this.totalCost * 0.1,
       totalCost: this.totalCost,
-      pickupMileage: this.publicacion.vehicle?.currentMileage || 0,
+      pickupMileage: this.publication.vehicle?.currentMileage || 0,
       dropoffMileage: null,
       status: 'PENDING_OWNER_APPROVAL',
-      pickupLocationId: this.publicacion.pickupLocation?.id || '',
-      dropoffLocationId: this.publicacion.pickupLocation?.id || '',
-      publicacion: undefined,
+      pickupLocationId: this.publication.pickupLocation?.id || '',
+      dropoffLocationId: this.publication.pickupLocation?.id || '',
+      publication: undefined,
       renter: undefined,
       insurance: undefined,
       pickupLocation: undefined,
