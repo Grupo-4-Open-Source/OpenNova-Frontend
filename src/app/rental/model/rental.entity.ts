@@ -5,7 +5,7 @@ import { Location} from '../../publications/model/location.entity';
 
 export class Rental {
   id: string;
-  publicacionId: string;
+  publicationId: string;
   renterId: string;
   bookingDate: string;
   startDate: string;
@@ -29,7 +29,7 @@ export class Rental {
 
   constructor() {
     this.id = '';
-    this.publicacionId = '';
+    this.publicationId = '';
     this.renterId = '';
     this.bookingDate = '';
     this.startDate = '';

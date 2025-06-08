@@ -1,0 +1,19 @@
+<mat-card class="vehicle-card-material" [routerLink]="cardRouterLink">
+  <mat-card-header>
+    <mat-card-title>{{ cardTitle }}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image [src]="cardImageUrl" [alt]="cardTitle">
+
+  <mat-card-content class="card-content-material">
+    <p class="price-status">{{ cardPriceOrStatus }}</p>
+    <p *ngIf="cardDates" class="dates">{{ cardDates }}</p>
+    <p *ngIf="cardLocation" class="location">
+      <i class="fas fa-map-marker-alt"></i> {{ cardLocation }}
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions class="card-actions-material">
+    <button mat-raised-button color="primary" *ngIf="showRentButton" [routerLink]="cardRouterLink">Rent Now</button>
+    <button mat-stroked-button color="accent" *ngIf="showManageButton" [routerLink]="cardRouterLink">Manage Booking</button>
+  </mat-card-actions>
+</mat-card>
