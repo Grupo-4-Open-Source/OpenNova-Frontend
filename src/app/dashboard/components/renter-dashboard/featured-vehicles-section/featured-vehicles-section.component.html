@@ -1,0 +1,18 @@
+<section class="featured-vehicles-section">
+  <h2>Featured Vehicles</h2>
+
+  <div *ngIf="isLoading" class="loading-message">Loading featured vehicles...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!isLoading && !error && featuredVehicles.length === 0" class="no-data-message">
+    <p>No featured vehicles found.</p>
+  </div>
+
+  <div class="vehicle-card-grid" *ngIf="featuredVehicles.length > 0">
+    <app-vehicle-card *ngFor="let publicacion of featuredVehicles" [publicacion]="publicacion"></app-vehicle-card>
+  </div>
+
+  <div class="section-footer">
+    <button mat-raised-button color="accent" routerLink="/explore/featured">See more featured vehicles</button>
+  </div>
+</section>

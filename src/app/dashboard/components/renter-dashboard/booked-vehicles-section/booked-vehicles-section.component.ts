@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ReservedService } from '../../services/reserved.service';
-import { PublishedVehicles } from '../../../navigation/model/published-vehicles.entity';
+import { ReservedService } from '../../../services/reserved.service';
+import { PublishedVehicles } from '../../../../navigation/model/published-vehicles.entity';
 import { CurrencyPipe, NgForOf, NgIf, NgClass } from '@angular/common';
 import {
   MatCard,
@@ -12,15 +12,15 @@ import {
 } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CancelDialogComponent } from '../cancel-dialog/cancel-dialog.component';
+import { CancelDialogComponent } from '../../cancel-dialog/cancel-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reserved-cards',
   standalone: true,
-  templateUrl: './reserved-cards.component.html',
-  styleUrls: ['./reserved-cards.component.css'],
+  templateUrl: './booked-vehicles-section.component.html',
+  styleUrls: ['./booked-vehicles-section.component.css'],
   imports: [
     CurrencyPipe,
     NgForOf,
@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
     CancelDialogComponent
   ]
 })
-export class ReservedCardsComponent implements OnInit {
+export class BookedVehiclesSectionComponent implements OnInit {
   vehicles: PublishedVehicles[] = [];
   displayedVehicles: PublishedVehicles[] = [];
   selectedVehicles: Set<number> = new Set();
