@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     { icon: 'dashboard', path: '/dashboard', title: 'Dashboard'},
     { icon: 'navigation', path:'/navigation', title: 'Navigation'},
     { icon: 'publications', path:'/publications', title: 'Publications'},
+    { icon: 'add_circle', path:'/publish-vehicle', title: 'Publish Vehicle'},
 
   ];
   constructor(private translate: TranslateService, private observer: BreakpointObserver) {
