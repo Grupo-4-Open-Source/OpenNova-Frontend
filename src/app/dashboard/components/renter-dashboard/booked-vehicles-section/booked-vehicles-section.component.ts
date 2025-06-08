@@ -1,117 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { ReservedService } from '../../../services/reserved.service';
-import { PublishedVehicles } from '../../../../navigation/model/published-vehicles.entity';
-import { CurrencyPipe, NgForOf, NgIf, NgClass } from '@angular/common';
-import {
-  MatCard,
-  MatCardActions,
-  MatCardContent,
-  MatCardHeader,
-  MatCardImage,
-  MatCardTitle
-} from '@angular/material/card';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CancelDialogComponent } from '../../cancel-dialog/cancel-dialog.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
+import { RentalService} from '../../../../rental/services/rental.service';
+import { Rental} from '../../../../rental/model/rental.entity';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { VehicleCardComponent} from '../../../../vehicle/components/vehicle-card/vehicle-card.component';
+import { User} from '../../../../iam/model/user.entity';
 
 @Component({
-  selector: 'app-reserved-cards',
+  selector: 'app-booked-vehicles-section',
   standalone: true,
-  templateUrl: './booked-vehicles-section.component.html',
-  styleUrls: ['./booked-vehicles-section.component.css'],
   imports: [
-    CurrencyPipe,
-    NgForOf,
-    NgIf,
-    NgClass,
-    MatCard,
-    MatCardActions,
-    MatCardContent,
-    MatCardHeader,
-    MatCardImage,
-    MatCardTitle,
+    CommonModule,
+    RouterModule,
     MatButtonModule,
-    MatDialogModule,
-    MatCheckboxModule,
-    CancelDialogComponent
-  ]
+    VehicleCardComponent
+  ],
+  templateUrl: './booked-vehicles-section.component.html',
+  styleUrls: ['./booked-vehicles-section.component.css']
 })
-export class BookedVehiclesSectionComponent implements OnInit {
-  vehicles: PublishedVehicles[] = [];
-  displayedVehicles: PublishedVehicles[] = [];
-  selectedVehicles: Set<number> = new Set();
-  isMultiSelectMode = false;
-  limit = 4;
+export class BookedVehiclesSectionComponent implements OnInit, OnDestroy {
+  allBookedVehicles: Rental[] = [];
+  bookedVehicles: Rental[] = [];
+  isLoading = true;
+  error: string | null = null;
+  private destroy$ = new Subject<void>();
+  displayLimit: number = 4;
+
+  private testRenterId: string = 'user001';
 
   constructor(
-    private reservedService: ReservedService,
-    private dialog: MatDialog,
-    private router: Router
-  ) {}
+    private alquilerService: RentalService,
+  ) { }
 
   ngOnInit(): void {
-    this.getReservedVehicles();
+    this.loadBookedVehicles(this.testRenterId);
   }
 
-  private getReservedVehicles(): void {
-    this.reservedService.getAll().subscribe((response: any) => {
-      this.vehicles = response;
-      this.displayedVehicles = this.vehicles.reverse().slice(0, this.limit);
-    });
+  loadBookedVehicles(userId: string): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.alquilerService.getMyRentals(userId, 'upcoming')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: Rental[]) => {
+          this.allBookedVehicles = data;
+          this.bookedVehicles = [...this.allBookedVehicles]
+            .sort((a, b) => new Date(b.bookingDate).getTime() - new Date(a.bookingDate).getTime())
+            .slice(0, this.displayLimit);
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          this.error = 'No se pudieron cargar tus reservas.';
+          this.isLoading = false;
+          console.error('Error al cargar reservas:', err);
+        }
+      });
   }
 
-  showAll(): void {
-    this.router.navigate(['/']);
-  }
-
-  toggleMultiSelect(): void {
-    this.isMultiSelectMode = !this.isMultiSelectMode;
-    if (!this.isMultiSelectMode) {
-      this.selectedVehicles.clear();
-    }
-  }
-
-  toggleSelection(id: number): void {
-    if (this.selectedVehicles.has(id)) {
-      this.selectedVehicles.delete(id);
-    } else {
-      this.selectedVehicles.add(id);
-    }
-  }
-
-  cancelReservation(vehicle: PublishedVehicles): void {
-    const dialogRef = this.dialog.open(CancelDialogComponent, {
-      width: '300px',
-      data: { vehicle }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.reservedService.delete(vehicle.id).subscribe(() => {
-          this.displayedVehicles = this.displayedVehicles.filter(v => v.id !== vehicle.id);
-        });
-      }
-    });
-  }
-
-  confirmBatchCancel(): void {
-    const dialogRef = this.dialog.open(CancelDialogComponent, {
-      width: '300px',
-      data: { vehicle: null }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const idsToDelete = Array.from(this.selectedVehicles);
-        const deleteRequests = idsToDelete.map(id => this.reservedService.delete(id));
-        Promise.all(deleteRequests.map(req => req.toPromise())).then(() => {
-          this.displayedVehicles = this.displayedVehicles.filter(v => !this.selectedVehicles.has(v.id));
-          this.selectedVehicles.clear();
-          this.isMultiSelectMode = false;
-        });
-      }
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
