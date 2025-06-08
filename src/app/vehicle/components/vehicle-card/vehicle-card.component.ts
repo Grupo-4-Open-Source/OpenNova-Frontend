@@ -56,8 +56,8 @@ export class VehicleCardComponent implements OnInit, OnChanges {
       this.showManageButton = false;
       this.cardDates = '';
     } else if (this.alquiler) {
-      this.cardImageUrl = this.alquiler.publicacion?.vehicle?.mainImageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image';
-      this.cardTitle = `${this.alquiler.publicacion?.vehicle?.make || 'Marca'} ${this.alquiler.publicacion?.vehicle?.model || 'Modelo'} (${this.alquiler.publicacion?.vehicle?.year || 'Año'})`;
+      this.cardImageUrl = this.alquiler.publication?.vehicle?.mainImageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image';
+      this.cardTitle = `${this.alquiler.publication?.vehicle?.make || 'Marca'} ${this.alquiler.publication?.vehicle?.model || 'Modelo'} (${this.alquiler.publication?.vehicle?.year || 'Año'})`;
       this.cardPriceOrStatus = `Estado: ${this.alquiler.status}`;
       const startDate = new Date(this.alquiler.startDate);
       const endDate = new Date(this.alquiler.endDate);
