@@ -1,0 +1,95 @@
+.vehicle-card-material {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  max-width: 280px;
+  width: 100%;
+  margin: 10px;
+}
+
+.vehicle-card-material:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+
+.vehicle-card-material img[mat-card-image] {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.vehicle-card-material .mat-card-header {
+  padding: 10px 15px 5px 15px;
+}
+.vehicle-card-material .mat-card-header .mat-card-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #2c3e50;
+}
+.vehicle-card-material .mat-card-header .mat-card-subtitle {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.vehicle-card-material .card-content-material {
+  padding: 15px !important;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vehicle-card-material p {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.vehicle-card-material .price-status {
+  font-weight: 700;
+  color: #28a745;
+  font-size: 1em;
+}
+
+.vehicle-card-material .dates {
+  font-style: italic;
+  color: #777;
+  font-size: 0.85em;
+}
+
+.vehicle-card-material .location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #777;
+  font-size: 0.85em;
+}
+
+.vehicle-card-material .location i {
+  color: #007bff;
+}
+
+.vehicle-card-material .mat-card-actions {
+  padding: 0 15px 15px 15px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vehicle-card-material .mat-card-actions button {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .vehicle-card-material {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+}
+

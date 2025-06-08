@@ -1,19 +1,31 @@
 export class Vehicle {
-  id: number;
+  id: string;
+  make: string;
   model: string;
-  brand: string;
   year: number;
+  color: string;
+  licensePlate: string;
+  currentMileage: number;
+  vehicleType: string;
+  fuelType: string;
+  passengerCapacity: number;
   description: string;
-  image: string;
-  price: number
+  mainImageUrl: string;
+  galleryImageUrls: string[]
 
   constructor() {
-    this.id = 0;
+    this.id = '';
+    this.make = '';
     this.model = '';
-    this.brand = '';
     this.year = 0;
+    this.color = '';
+    this.licensePlate = '';
+    this.currentMileage = 0;
+    this.vehicleType = '';
+    this.fuelType = '';
+    this.passengerCapacity = 0;
     this.description = '';
-    this.image = '';
-    this.price = 0;
+    this.mainImageUrl = '';
+    this.galleryImageUrls = [];
   }
 }
