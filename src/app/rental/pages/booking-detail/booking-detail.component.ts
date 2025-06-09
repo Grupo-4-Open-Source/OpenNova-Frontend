@@ -98,7 +98,7 @@ export class BookingDetailPageComponent implements OnInit {
       width: '350px',
       data: {
         title: 'Confirmar Cancelación',
-        message: `¿Estás seguro de que quieres cancelar la reserva del vehículo ${this.alquiler.publication?.vehicle?.make} ${this.alquiler.publicacion?.vehicle?.model}?`
+        message: `¿Estás seguro de que quieres cancelar la reserva del vehículo ${this.alquiler.publication?.vehicle?.make} ${this.alquiler.publication?.vehicle?.model}?`
       }
     });
 
