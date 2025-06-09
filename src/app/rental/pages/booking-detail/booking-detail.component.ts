@@ -4,12 +4,15 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 
 import { RentalService} from '../../services/rental.service';
 import { Rental} from '../../model/rental.entity';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-booking-detail-page',
@@ -33,6 +36,8 @@ export class BookingDetailPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alquilerService: RentalService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -80,5 +85,41 @@ export class BookingDetailPageComponent implements OnInit {
       case 'RECHAZADO': return 'status-rejected';
       default: return '';
     }
+  }
+
+
+  cancelBooking(): void {
+    if (!this.alquiler || !this.alquiler.id) {
+      this.snackBar.open('No se puede cancelar una reserva no válida.', 'Cerrar', { duration: 3000 });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirmar Cancelación',
+        message: `¿Estás seguro de que quieres cancelar la reserva del vehículo ${this.alquiler.publication?.vehicle?.make} ${this.alquiler.publicacion?.vehicle?.model}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.isLoading = true;
+        const updatedStatus = 'CANCELLED';
+        this.alquilerService.updateRental(this.alquiler!.id, { status: updatedStatus }).subscribe({
+          next: (updatedAlquiler) => {
+            this.alquiler = updatedAlquiler;
+            this.snackBar.open('Reserva cancelada exitosamente.', 'Cerrar', { duration: 3000 });
+            this.isLoading = false;
+            this.router.navigate(['/my-bookings']);
+          },
+          error: (err) => {
+            console.error('Error al cancelar la reserva:', err);
+            this.snackBar.open('Error al cancelar la reserva. Inténtalo de nuevo.', 'Cerrar', { duration: 5000 });
+            this.isLoading = false;
+          }
+        });
+      }
+    });
   }
 }
