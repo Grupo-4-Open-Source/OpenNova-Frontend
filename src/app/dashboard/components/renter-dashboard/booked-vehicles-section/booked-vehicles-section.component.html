@@ -1,0 +1,20 @@
+<section class="booked-vehicles-section">
+  <h2>My Bookings</h2>
+  <div *ngIf="isLoading" class="loading-message">Loading your bookings...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!isLoading && !error && bookedVehicles.length === 0" class="no-data-message">
+    <p>You have no upcoming bookings.</p>
+  </div>
+
+  <div class="vehicle-card-grid" *ngIf="bookedVehicles.length > 0">
+    <app-vehicle-card
+      *ngFor="let alquiler of bookedVehicles"
+      [alquiler]="alquiler"
+    ></app-vehicle-card>
+  </div>
+
+  <div class="section-footer">
+    <button mat-raised-button color="primary" routerLink="/explore">Explore booked vehicles</button>
+  </div>
+</section>
