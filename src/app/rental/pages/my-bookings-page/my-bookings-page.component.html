@@ -21,10 +21,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehículo </th>
         <td mat-cell *matCellDef="let alquiler">
           <div class="vehicle-info-cell">
-            <img [src]="alquiler.publicacion?.vehicle?.mainImageUrl || 'https://placehold.co/50x50/CCCCCC/000000?text=No+Img'" alt="Imagen del vehículo" class="vehicle-thumbnail">
+            <img [src]="alquiler.publication?.vehicle?.mainImageUrl || 'https://placehold.co/50x50/CCCCCC/000000?text=No+Img'" alt="Imagen del vehículo" class="vehicle-thumbnail">
             <div>
-              <div class="vehicle-model">{{ alquiler.publicacion?.vehicle?.make }} {{ alquiler.publicacion?.vehicle?.model }}</div>
-              <div class="vehicle-plate">{{ alquiler.publicacion?.vehicle?.licensePlate }}</div>
+              <div class="vehicle-model">{{ alquiler.publication?.vehicle?.make }} {{ alquiler.publication?.vehicle?.model }}</div>
+              <div class="vehicle-plate">{{ alquiler.publication?.vehicle?.licensePlate }}</div>
             </div>
           </div>
         </td>
