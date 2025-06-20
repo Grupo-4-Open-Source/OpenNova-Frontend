@@ -8,6 +8,7 @@ import { RentVehicleComponent } from './rental/pages/rent-vehicle.component';
 import { RoleSelectionComponent } from './public/pages/role-selection/role-selection.component';
 import { Component } from '@angular/core';
 import {BookingDetailPageComponent} from './rental/pages/booking-detail/booking-detail.component';
+import {MyBookingsPageComponent} from './rental/pages/my-bookings-page/my-bookings-page.component';
 
 @Component({
   selector: 'app-my-bookings-placeholder',
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: RenterDashboardComponent },
   { path: 'owner-dashboard', component: OwnerDashboardComponent },
   { path: 'publish-vehicle', component: PublishVehicleComponent },
+  {path: 'my-bookings', component: MyBookingsPageComponent},
   { path: 'my-bookings/details/:id', component: BookingDetailPageComponent },
   { path: 'rent-vehicle/:publicacionId', component: RentVehicleComponent },
   { path: 'about', component: AboutComponent },
