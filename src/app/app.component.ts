@@ -37,9 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(MatSidenav, { static: true }) sidenav!: MatSidenav;
 
   private allOptions = [
-    { icon: 'dashboard', path: '/dashboard', title: 'Search Vehicles', roles: ['renter', 'public'] },
-    { icon: 'directions_car', path: '/owner-dashboard', title: 'My Vehicles (Owner)', roles: ['owner'] },
-    { icon: 'add_circle', path: '/publish-vehicle', title: 'Publish Vehicle', roles: ['owner'] },
+    { icon: 'dashboard', path: '/dashboard', title: 'Dashboard Renter', roles: ['renter'] },
+    { icon: 'dashboard', path: '/owner-dashboard', title: 'Dashboard Owner', roles: ['owner'] },
+    { icon: 'directions_car', path: '/publish-vehicle', title: 'Publish Vehicle', roles: ['owner'] },
     { icon: 'book', path: '/my-bookings', title: 'My Bookings', roles: ['renter'] },
     { icon: 'info', path:'/about', title: 'About Us', roles: ['renter', 'owner', 'public'] },
   ];
