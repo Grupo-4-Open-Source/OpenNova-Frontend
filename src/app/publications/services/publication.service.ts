@@ -190,4 +190,24 @@ export class PublicationService extends BaseService<Publication> {
       })
     );
   }
+
+  getPublicationsByOwnerId(ownerId: string): Observable<Publication[]> {
+    let params = new HttpParams().set('ownerId', ownerId);
+    params = params.append('_expand', 'vehicle');
+    params = params.append('_expand', 'pickupLocation');
+
+    return this.getAll(params).pipe(
+      switchMap((rawPublications: Publication[]) => {
+        if (rawPublications.length === 0) {
+          return of([]);
+        }
+        const enrichmentObservables = rawPublications.map(pub => this.enrichPublication(pub));
+        return forkJoin(enrichmentObservables);
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(`Error loading publications for owner ${ownerId}:`, err);
+        return of([]);
+      })
+    );
+  }
 }
