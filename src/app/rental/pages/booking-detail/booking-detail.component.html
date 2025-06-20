@@ -1,0 +1,62 @@
+<div class="booking-detail-container">
+  <button mat-flat-button color="accent" (click)="goBack()" class="back-button">
+    <mat-icon>arrow_back</mat-icon> Volver a Mis Reservas
+  </button>
+
+  <mat-card *ngIf="alquiler && !isLoading && !error">
+    <mat-card-header>
+      <mat-card-title>Detalles de la Reserva</mat-card-title>
+      <mat-card-subtitle>ID de Reserva: {{ alquiler.id }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="detail-section vehicle-info">
+        <h3>Información del Vehículo</h3>
+        <img [src]="alquiler.publication?.vehicle?.mainImageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image'" alt="Imagen del vehículo" class="vehicle-image">
+        <p><strong>Marca:</strong> {{ alquiler.publication?.vehicle?.make }}</p>
+        <p><strong>Modelo:</strong> {{ alquiler.publication?.vehicle?.model }}</p>
+        <p><strong>Año:</strong> {{ alquiler.publication?.vehicle?.year }}</p>
+        <p><strong>Color:</strong> {{ alquiler.publication?.vehicle?.color }}</p>
+        <p><strong>Matrícula:</strong> {{ alquiler.publication?.vehicle?.licensePlate }}</p>
+        <p><strong>Tipo:</strong> {{ alquiler.publication?.vehicle?.vehicleType }} ({{ alquiler.publication?.vehicle?.fuelType }})</p>
+        <p><strong>Descripción:</strong> {{ alquiler.publication?.vehicle?.description }}</p>
+      </div>
+
+      <div class="detail-section booking-info">
+        <h3>Detalles del Alquiler</h3>
+        <p><strong>Fechas de Alquiler:</strong> {{ alquiler.startDate | date:'fullDate' }} al {{ alquiler.endDate | date:'fullDate' }}</p>
+        <p><strong>Fecha de Reserva:</strong> {{ alquiler.bookingDate | date:'short' }}</p>
+        <p><strong>Estado:</strong> <span [ngClass]="getStatusClass(alquiler.status)">{{ alquiler.status }}</span></p>
+        <p><strong>Costo Base por Día:</strong> ${{ alquiler.publication?.dailyPrice | number:'1.2-2' }}</p>
+        <p><strong>Costo Total Estimado:</strong> ${{ alquiler.totalCost | number:'1.2-2' }}</p>
+        <p><strong>Kilometraje de Recogida:</strong> {{ alquiler.pickupMileage }} km</p>
+        <p *ngIf="alquiler.dropoffMileage"><strong>Kilometraje de Devolución:</strong> {{ alquiler.dropoffMileage }} km</p>
+        <p><strong>Ubicación de Recogida:</strong> {{ alquiler.pickupLocation?.addressLine1 }}, {{ alquiler.pickupLocation?.city }}</p>
+        <p *ngIf="alquiler.dropoffLocation && alquiler.pickupLocation?.id !== alquiler.dropoffLocation.id"><strong>Ubicación de Devolución:</strong> {{ alquiler.dropoffLocation.addressLine1 }}, {{ alquiler.dropoffLocation.city }}</p>
+      </div>
+
+      <div class="detail-section parties-info">
+        <h3>Información del Propietario</h3>
+        <p><strong>Nombre:</strong> {{ alquiler.publication?.owner?.fullName }}</p>
+        <p><strong>Email:</strong> {{ alquiler.publication?.owner?.email }}</p>
+        <p><strong>Teléfono:</strong> {{ alquiler.publication?.owner?.phone }}</p>
+      </div>
+
+      <div class="detail-section insurance-info" *ngIf="alquiler.insurance">
+        <h3>Detalles del Seguro</h3>
+        <p><strong>Plan:</strong> {{ alquiler.insurance.planName }}</p>
+        <p><strong>Costo Diario del Seguro:</strong> ${{ alquiler.insurance.dailyCost | number:'1.2-2' }}</p>
+        <p><strong>Deducible:</strong> ${{ alquiler.insurance.deductible | number:'1.2-2' }}</p>
+        <p><strong>Cobertura:</strong> {{ alquiler.insurance.coverageDetails }}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="warn" (click)="cancelBooking()"
+              [disabled]="alquiler.status === 'CANCELLED' || alquiler.status === 'COMPLETED' || isLoading">
+        <mat-icon>cancel</mat-icon> Cancelar Reserva
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div *ngIf="isLoading" class="loading-message">Cargando detalles de la reserva...</div>
+  <div *ngIf="error && !isLoading" class="error-message">{{ error }}</div>
+</div>
