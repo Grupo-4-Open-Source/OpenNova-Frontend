@@ -1,0 +1,87 @@
+.owner-dashboard-container {
+  padding: 32px;
+  background: linear-gradient(135deg, var(--background-light) 0%, #e0e0e0 100%);
+  min-height: 100vh;
+  color: var(--text-dark);
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: var(--primary-purple);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px var(--shadow-medium);
+  animation: fadeIn 1s ease-out;
+}
+
+.dashboard-header h1 {
+  font-size: 3.5em;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-header p {
+  font-size: 1.3em;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+.dashboard-content {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr;
+}
+
+.dashboard-section {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--shadow-light);
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px var(--shadow-medium);
+}
+
+@media (min-width: 768px) {
+  .owner-dashboard-container {
+    padding: 40px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 4em;
+  }
+
+  .dashboard-header p {
+    font-size: 1.4em;
+  }
+
+  /* Ya no necesitamos ajustar grid-template-columns aquí, ya que siempre es 1fr */
+}
+
+@media (min-width: 1024px) {
+  .owner-dashboard-container {
+    padding: 50px 80px;
+  }
+  .dashboard-content {
+    gap: 40px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,70 @@
+.vehicle-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Esto crea columnas responsivas */
+  gap: 20px; /* Espacio entre las tarjetas */
+  justify-content: center; /* Centra las tarjetas en el contenedor */
+  margin-bottom: 30px; /* Margen inferior para separar de otros elementos */
+}
+
+/* Opcional: Media queries para mejorar la responsividad en pantallas más pequeñas */
+@media (max-width: 768px) {
+  .vehicle-card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-card-grid {
+    grid-template-columns: 1fr; /* Una columna en pantallas muy pequeñas */
+    gap: 10px;
+  }
+}
+
+/* Estilos para los mensajes de carga, error y sin datos */
+.message-container {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.no-data-message {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.publish-button {
+  margin-top: 15px;
+}
+
+/* Estilos para el encabezado y el botón "Gestionar Publicaciones" */
+.published-section {
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  color: #333;
+  font-size: 1.8em;
+}
+
+.section-header a {
+  text-decoration: none;
+}

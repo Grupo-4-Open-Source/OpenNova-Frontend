@@ -50,59 +50,42 @@ export class RentalService extends BaseService<Rental> {
     } = {};
 
     if (rental.publicationId && !rental.publication) {
-      observables.publication = this.publicationService.getPublicationById(rental.publicationId).pipe(
-        catchError(() => of(undefined))
-      );
+      observables.publication = this.publicationService.getPublicationById(rental.publicationId).pipe(catchError(() => of(undefined)));
     } else {
       observables.publication = of(rental.publication);
     }
-
     if (rental.renterId && !rental.renter) {
-      observables.renter = this.userService.getUserById(rental.renterId).pipe(
-        catchError(() => of(undefined))
-      );
+      observables.renter = this.userService.getUserById(rental.renterId).pipe(catchError(() => of(undefined)));
     } else {
       observables.renter = of(rental.renter);
     }
-
     if (rental.insuranceId && !rental.insurance) {
-      observables.insurance = this.insuranceService.getInsuranceById(rental.insuranceId).pipe(
-        catchError(() => of(undefined))
-      );
+      observables.insurance = this.insuranceService.getInsuranceById(rental.insuranceId).pipe(catchError(() => of(undefined)));
     } else {
       observables.insurance = of(rental.insurance);
     }
-
-    // Obtener PickupLocation usando LocationService
     if (rental.pickupLocationId && !rental.pickupLocation) {
-      observables.pickupLocation = this.locationService.getLocationById(rental.pickupLocationId).pipe(
-        catchError(() => of(undefined))
-      );
+      observables.pickupLocation = this.locationService.getLocationById(rental.pickupLocationId).pipe(catchError(() => of(undefined)));
     } else {
       observables.pickupLocation = of(rental.pickupLocation);
     }
-
     if (rental.dropoffLocationId && !rental.dropoffLocation) {
-      observables.dropoffLocation = this.locationService.getLocationById(rental.dropoffLocationId).pipe(
-        catchError(() => of(undefined))
-      );
+      observables.dropoffLocation = this.locationService.getLocationById(rental.dropoffLocationId).pipe(catchError(() => of(undefined)));
     } else {
       observables.dropoffLocation = of(rental.dropoffLocation);
     }
 
     return forkJoin(observables).pipe(
-      map(results => {
-        return {
-          ...rental,
-          publication: results.publication ?? rental.publication,
-          renter: results.renter ?? rental.renter,
-          insurance: results.insurance ?? rental.insurance,
-          pickupLocation: results.pickupLocation ?? rental.pickupLocation,
-          dropoffLocation: results.dropoffLocation ?? rental.dropoffLocation
-        };
-      }),
+      map(results => ({
+        ...rental,
+        publication: results.publication ?? rental.publication,
+        renter: results.renter ?? rental.renter,
+        insurance: results.insurance ?? rental.insurance,
+        pickupLocation: results.pickupLocation ?? rental.pickupLocation,
+        dropoffLocation: results.dropoffLocation ?? rental.dropoffLocation
+      })),
       catchError(err => {
-        console.error(`Error enriching alquiler ${rental.id}:`, err);
+        console.error(`Error enriching rental ${rental.id}:`, err);
         return of(rental);
       })
     );
@@ -213,11 +196,10 @@ export class RentalService extends BaseService<Rental> {
    */
   getMyRentals(userId: string, status: 'upcoming' | 'completed' | 'pending' | 'all'): Observable<Rental[]> {
     return this.getAllRentals().pipe(
-      map((allAlquileres: Rental[]) => {
-        let filteredAlquileres = allAlquileres.filter((alquiler: Rental) => alquiler.renter?.id === userId);
-
+      map(allRentals => {
+        let filteredRentals = allRentals.filter(rental => rental.renter?.id === userId);
         if (status !== 'all') {
-          filteredAlquileres = filteredAlquileres.filter((alquiler: Rental) => {
+          filteredRentals = filteredRentals.filter((alquiler: Rental) => {
             const currentDate = new Date();
             const rentalStartDate = alquiler.startDate ? new Date(alquiler.startDate) : null;
             const rentalEndDate = alquiler.endDate ? new Date(alquiler.endDate) : null;
@@ -236,10 +218,50 @@ export class RentalService extends BaseService<Rental> {
             }
           });
         }
-        return filteredAlquileres;
+        return filteredRentals;
       }),
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al obtener alquileres para el usuario ${userId} con estado ${status}:`, err);
+        return of([]);
+      })
+    );
+  }
+
+
+  /**
+   * Obtiene los alquileres asociados a los vehículos de un propietario.
+   * @param ownerId El ID del propietario.
+   * @param status El estado de los alquileres a filtrar ('pending', 'upcoming', 'completed', 'all').
+   * @returns Un Observable que emite un array de Alquileres enriquecidos.
+   */
+  getRentalsForOwner(ownerId: string, status: 'pending' | 'upcoming' | 'completed' | 'all'): Observable<Rental[]> {
+    return this.getAllRentals().pipe(
+      map((allRentals: Rental[]) => {
+        let ownerRentals = allRentals.filter((rental: Rental) => rental.publication?.ownerId === ownerId);
+
+        if (status !== 'all') {
+          ownerRentals = ownerRentals.filter((rental: Rental) => {
+            const currentDate = new Date();
+            const rentalStartDate = rental.startDate ? new Date(rental.startDate) : null;
+
+            if (!rentalStartDate) return false;
+
+            switch (status) {
+              case 'pending':
+                return rental.status === 'PENDING_OWNER_APPROVAL';
+              case 'upcoming':
+                return (rental.status === 'CONFIRMED') && rentalStartDate > currentDate;
+              case 'completed':
+                return rental.status === 'COMPLETED';
+              default:
+                return true;
+            }
+          });
+        }
+        return ownerRentals;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(`Error loading rentals for owner ${ownerId} with status ${status}:`, err);
         return of([]);
       })
     );

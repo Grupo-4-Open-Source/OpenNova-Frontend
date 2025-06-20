@@ -1,0 +1,17 @@
+<section class="published-section">
+  <div class="section-header">
+    <h2>My Published Vehicles</h2>
+    <a routerLink="/my-publications" mat-stroked-button color="primary">Manage Publications</a>
+  </div>
+
+  <div *ngIf="isLoading" class="message-container"><mat-spinner></mat-spinner></div>
+  <div *ngIf="!isLoading && error" class="message-container error-message">{{ error }}</div>
+  <div *ngIf="!isLoading && !error && myPublications.length === 0" class="message-container no-data-message">
+    <p>You haven't published any vehicles yet.</p>
+    <a routerLink="/publish-vehicle" mat-flat-button color="primary" class="publish-button">Publish My First Vehicle</a>
+  </div>
+
+  <div *ngIf="!isLoading && myPublications.length > 0" class="vehicle-card-grid">
+    <app-vehicle-card *ngFor="let pub of myPublications" [publicacion]="pub"></app-vehicle-card>
+  </div>
+</section>
