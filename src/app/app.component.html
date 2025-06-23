@@ -1,42 +1,39 @@
 <mat-toolbar color="primary">
-  @if (sidenav.mode === 'over') {
-    <button mat-icon-button (click)="sidenav.toggle()" >
-      @if (sidenav.opened) {
-        <mat-icon>close</mat-icon>
-      } @else {
-        <mat-icon>menu</mat-icon>
-      }
-    </button>
-  }
-  <mat-icon matListItemIcon>rocket_launch</mat-icon>
-  <span>Automovil-Unite</span>
-  <span class="mat-spacer"></span>
-  @for(option of options; track option.title) {
-    <a mat-button [routerLink]="option.path">{{ option.title }}</a>
-  }
-  <button mat-icon-button>
-    <mat-icon>share</mat-icon>
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
   </button>
-  <span>
-    <app-language-switcher/>
-  </span>
+  <span>OpenNova</span>
+  <span class="spacer"></span>
+  <app-language-switcher></app-language-switcher>
+
+  <button mat-button *ngIf="currentRole !== 'public'" (click)="logout()">
+    <mat-icon>logout</mat-icon> Logout
+  </button>
+  <button mat-button *ngIf="currentRole === 'public'" routerLink="/select-role">
+    <mat-icon>login</mat-icon> Select Role
+  </button>
+
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav>
+  <mat-sidenav #sidenav class="sidenav" [mode]="sidenav.mode">
     <mat-nav-list>
-      @for(option of options; track option.title) {
-        <mat-list-item (click)="sidenav.mode === 'over' && sidenav.toggle()" [routerLink]="option.path">
-          <mat-icon matListItemIcon>{{ option.icon }}</mat-icon>
-          {{ option.title }}
-        </mat-list-item>
-      }
+      <a mat-list-item *ngFor="let option of visibleOptions" [routerLink]="option.path" routerLinkActive="active" (click)="sidenav.mode === 'over' ? sidenav.close() : null">
+        <mat-icon>{{ option.icon }}</mat-icon>
+        {{ option.title }}
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item *ngIf="currentRole !== 'public'" (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+      </a>
+      <a mat-list-item *ngIf="currentRole === 'public'" routerLink="/select-role" (click)="sidenav.close()">
+        <mat-icon>login</mat-icon> Select Role
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content">
-      <router-outlet />
-    </div>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

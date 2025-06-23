@@ -1,0 +1,22 @@
+<section class="requests-section">
+  <div class="section-header">
+    <h2>New Rental Requests</h2>
+    <a routerLink="/owner-requests" mat-stroked-button color="primary">View All</a>
+  </div>
+
+  <div *ngIf="isLoading" class="message-container"><mat-spinner></mat-spinner></div>
+  <div *ngIf="!isLoading && error" class="message-container error-message">{{ error }}</div>
+  <div *ngIf="!isLoading && !error && bookingRequests.length === 0" class="message-container">
+    <p>You have no new rental requests at this time.</p>
+  </div>
+
+  <div *ngIf="!isLoading && bookingRequests.length > 0" class="vehicle-card-grid">
+    <div *ngFor="let rental of bookingRequests" class="request-card-container">
+      <app-vehicle-card [alquiler]="rental"></app-vehicle-card>
+      <div class="action-buttons">
+        <button mat-flat-button color="primary" (click)="approveRental(rental.id)">Approve</button>
+        <button mat-button color="warn" (click)="rejectRental(rental.id)">Reject</button>
+      </div>
+    </div>
+  </div>
+</section>

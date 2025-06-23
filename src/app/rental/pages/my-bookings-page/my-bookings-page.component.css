@@ -1,0 +1,232 @@
+.my-bookings-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2.2em;
+  font-weight: 700;
+}
+
+.loading-message,
+.error-message,
+.no-data-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.no-data-message button {
+  background-color: #673ab7;
+  color: white;
+  margin-top: 20px;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+.no-data-message button:hover {
+  background-color: #5e35b1;
+}
+
+.bookings-table-wrapper {
+  overflow-x: auto;
+}
+
+.filter-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.full-width-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.mat-table {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.mat-header-cell {
+  background-color: #f0f2f5;
+  color: #333;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 15px 10px;
+  text-align: left;
+}
+
+.mat-cell {
+  padding: 12px 10px;
+  color: #555;
+  border-bottom: 1px solid #eee;
+}
+
+/* Estilo para las filas */
+.mat-row {
+  background-color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mat-row:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mat-row:first-child .mat-cell:first-of-type {
+  border-top-left-radius: 8px;
+}
+.mat-row:first-child .mat-cell:last-of-type {
+  border-top-right-radius: 8px;
+}
+.mat-row:last-child .mat-cell:first-of-type {
+  border-bottom-left-radius: 8px;
+}
+.mat-row:last-child .mat-cell:last-of-type {
+  border-bottom-right-radius: 8px;
+}
+
+
+.vehicle-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vehicle-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.vehicle-model {
+  font-weight: 600;
+  color: #444;
+}
+
+.vehicle-plate {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.status-confirmed {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.status-completed {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.status-cancelled, .status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.mat-icon-button {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 4px;
+}
+
+/* Paginator */
+.mat-paginator {
+  background-color: #f0f2f5;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .my-bookings-container {
+    padding: 15px;
+    margin: 10px auto;
+  }
+
+  h2 {
+    font-size: 1.8em;
+  }
+
+  .mat-header-cell, .mat-cell {
+    padding: 10px 8px;
+    font-size: 0.9em;
+  }
+
+  .mat-column-totalCost,
+  .mat-column-status {
+    display: table-cell;
+  }
+
+  .vehicle-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-bookings-container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  .bookings-table-wrapper {
+    overflow-x: scroll;
+  }
+
+  .mat-header-cell, .mat-cell {
+    font-size: 0.8em;
+    padding: 8px 5px;
+  }
+}
