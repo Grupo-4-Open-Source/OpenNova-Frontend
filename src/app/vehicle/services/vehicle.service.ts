@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { Vehicle} from '../model/vehicle.entity'; 
+import { Vehicle} from '../../publications/model/vehicle.entity';
 import { BaseService} from '../../shared/services/base.service';
 import { environment } from '../../../environments/environment';
 import { PublicationService} from '../../publications/services/publication.service';
@@ -38,7 +38,7 @@ export class VehicleService extends BaseService<Vehicle> {
    * @param id El ID del vehículo (ahora number).
    * @returns Un Observable que emite el objeto Vehicle, o undefined si no se encuentra o hay un error.
    */
-  getVehicleById(id: number): Observable<Vehicle | undefined> { 
+  getVehicleById(id: number): Observable<Vehicle | undefined> {
     return this.getById(id).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al cargar vehículo ${id}:`, err);
@@ -54,7 +54,7 @@ export class VehicleService extends BaseService<Vehicle> {
    * @param vehicle Los datos del vehículo a crear (sin el ID).
    * @returns Un Observable que emite el objeto Vehicle creado.
    */
-  createVehicle(vehicle: Omit<Vehicle, 'id'>): Observable<Vehicle> { 
+  createVehicle(vehicle: Omit<Vehicle, 'id'>): Observable<Vehicle> {
     return this.create(vehicle).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error('Error al crear vehículo:', err);

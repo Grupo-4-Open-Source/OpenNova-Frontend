@@ -12,7 +12,8 @@ import {MyBookingsPageComponent} from './rental/pages/my-bookings-page/my-bookin
 import {SignInComponent} from "./iam/pages/sign-in/sign-in.component";
 import {SignUpComponent} from "./iam/pages/sign-up/sign-up.component";
 import {authenticationGuard} from "./iam/services/authentication.guard";
-import { RegisterVehicleComponent } from './vehicle/pages/register-vehicle/register-vehicle.component'; 
+import { RegisterVehicleComponent} from './vehicle/components/register-vehicle.component';
+
 @Component({
   selector: 'app-my-bookings-placeholder',
   template: '<h2>My Bookings - Coming Soon!</h2><p>This section is under construction.</p>',

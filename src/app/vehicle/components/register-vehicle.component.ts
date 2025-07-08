@@ -8,8 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { VehicleService } from '../../services/vehicle.service';
-import { Vehicle } from '../../model/vehicle.entity';
+import { VehicleService} from '../services/vehicle.service';
+import { Vehicle} from '../../publications/model/vehicle.entity';
 import { nanoid } from 'nanoid'; // If using client-side UUIDs for new vehicles
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -32,13 +32,13 @@ import { Subscription } from 'rxjs';
 })
 export class RegisterVehicleComponent implements OnInit, OnDestroy {
   vehicleForm: FormGroup;
-  vehicleTypes: string[] = ['SEDAN', 'SUV', 'HATCHBACK', 'COUPE', 'ELECTRIC', 'TRUCK', 'MOTORCYCLE']; 
-  fuelTypes: string[] = ['GASOLINE', 'DIESEL', 'ELECTRIC', 'HYBRID']; 
+  vehicleTypes: string[] = ['SEDAN', 'SUV', 'HATCHBACK', 'COUPE', 'ELECTRIC', 'TRUCK', 'MOTORCYCLE'];
+  fuelTypes: string[] = ['GASOLINE', 'DIESEL', 'ELECTRIC', 'HYBRID'];
   isLoading: boolean = false;
   imagePreviewUrl: string = '';
 
   private formSubscription: Subscription = new Subscription();
-  private testOwnerId: string = '1'; 
+  private testOwnerId: string = '1';
 
   constructor(
     private fb: FormBuilder,

@@ -6,14 +6,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PublicationService } from '../../publications/services/publication.service';
 import { RentalService } from '../services/rental.service';
 import { Publication } from '../../publications/model/publication.entity';
-import { Rental } from '../model/rental.entity'; 
+import { Rental } from '../model/rental.entity';
 import { nanoid } from 'nanoid';
 import { InsuranceService } from '../services/insurance.service';
 import { VehicleService } from '../../vehicle/services/vehicle.service';
 import { LocationService } from '../../publications/services/location.service';
 import { Insurance } from '../model/insurance.entity';
-import { Vehicle} from '../../vehicle/model/vehicle.entity'; 
-import { Location } from '../../publications/model/location.entity'; 
+import { Vehicle} from '../../publications/model/vehicle.entity';
+import { Location } from '../../publications/model/location.entity';
 import { switchMap, filter, take, catchError, map } from 'rxjs/operators';
 import { of, forkJoin } from 'rxjs';
 
@@ -30,7 +30,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatButtonModule,
-    NgClass 
   ],
   templateUrl: './rent-vehicle.component.html',
   styleUrls: ['./rent-vehicle.component.css']
@@ -74,9 +73,9 @@ export class RentVehicleComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.pipe(
       map((params: ParamMap) => params.get('publicacionId')),
-      filter((id): id is string => !!id), 
+      filter((id): id is string => !!id),
       switchMap(externalIdFromRoute => { // CAMBIO: Renombrado para claridad
-        this.publicacionExternalId = externalIdFromRoute; 
+        this.publicacionExternalId = externalIdFromRoute;
         this.isLoading = true;
         return this.publicacionService.getPublicationByExternalId(externalIdFromRoute).pipe(
           catchError(err => {
@@ -228,7 +227,7 @@ export class RentVehicleComponent implements OnInit {
     const alquilerData: Rental = {
       id: 0,
       // CORRECCIÓN: Asignar externalId (string) a publicationId (string)
-      publicationId: this.publication.externalId,
+      publicationId: this.publication.id,
       renterId: this.testRenterId,
       insuranceId: this.testInsuranceId,
       bookingDate: bookingDate,

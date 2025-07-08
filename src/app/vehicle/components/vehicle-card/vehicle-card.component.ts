@@ -7,8 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { Publication} from '../../../publications/model/publication.entity';
 import { Rental} from '../../../rental/model/rental.entity';
-import { VehicleService } from '../../services/vehicle.service'; 
-import { Vehicle } from '../../model/vehicle.entity'; 
+import { VehicleService } from '../../services/vehicle.service';
+import { Vehicle } from '../../../publications/model/vehicle.entity';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -29,7 +29,7 @@ import { catchError } from 'rxjs/operators';
 export class VehicleCardComponent implements OnInit, OnChanges {
   @Input() publicacion?: Publication;
   @Input() alquiler?: Rental;
-  @Input() relatedPublicationForRental?: Publication; 
+  @Input() relatedPublicationForRental?: Publication;
 
   cardImageUrl: string = 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image';
   cardTitle: string = 'Vehículo Desconocido';
@@ -40,11 +40,11 @@ export class VehicleCardComponent implements OnInit, OnChanges {
   showRentButton: boolean = false;
   showManageButton: boolean = false;
 
-  private currentVehicleId: number | undefined; 
+  private currentVehicleId: number | undefined;
 
   constructor(
     private datePipe: DatePipe,
-    private vehicleService: VehicleService 
+    private vehicleService: VehicleService
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class VehicleCardComponent implements OnInit, OnChanges {
       this.showManageButton = false;
       this.cardRouterLink = `/rent-vehicle/${this.publicacion.id}`;
       this.cardPriceOrStatus = `$${this.publicacion.dailyPrice} / día`;
-      this.cardDates = ''; 
+      this.cardDates = '';
     } else if (this.alquiler && this.relatedPublicationForRental) {
       sourcePublication = this.relatedPublicationForRental;
       isRentalContext = true;
@@ -87,7 +87,7 @@ export class VehicleCardComponent implements OnInit, OnChanges {
     this.cardLocation = sourcePublication.pickupLocationAddressSummary || 'Ubicación Desconocida';
 
     if (sourcePublication.vehicleId && sourcePublication.vehicleId !== this.currentVehicleId) {
-      this.currentVehicleId = sourcePublication.vehicleId; 
+      this.currentVehicleId = sourcePublication.vehicleId;
       this.vehicleService.getVehicleById(sourcePublication.vehicleId).pipe(
         catchError(err => {
           console.error(`Error al cargar la imagen del vehículo ${sourcePublication?.vehicleId}:`, err);

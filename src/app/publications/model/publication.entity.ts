@@ -4,21 +4,22 @@ export class Publication {
   title: string;
   description: string;
   dailyPrice: number;
-  weeklyPrice: number | null; 
-  vehicleId: number; 
-  ownerId: string; 
-  pickupLocationId: string; 
+  weeklyPrice: number | null;
+  vehicleId: number;
+  ownerId: string;
+  pickupLocationId: string;
   carRules: string;
   status: string;
   isFeatured: boolean;
-  availableFrom: string; 
-  availableUntil: string; 
-  createdAt: string; 
-  updatedAt: string; 
+  availableFrom: string;
+  availableUntil: string;
+  createdAt: string;
+  updatedAt: string;
   vehicleMake: string;
-  vehicleModel: string; 
-  ownerFullName: string; 
-  pickupLocationAddressSummary: string; 
+  vehicleModel: string;
+  mainImageUrl: string; // <-- Agrega esta línea
+  ownerFullName: string;
+  pickupLocationAddressSummary: string;
 
   constructor(
     id: number = 0,
@@ -39,6 +40,7 @@ export class Publication {
     updatedAt: string = '',
     vehicleMake: string = '',
     vehicleModel: string = '',
+    mainImageUrl: string = '', // <-- Agrega este parámetro
     ownerFullName: string = '',
     pickupLocationAddressSummary: string = ''
   ) {
@@ -60,6 +62,7 @@ export class Publication {
     this.updatedAt = updatedAt;
     this.vehicleMake = vehicleMake;
     this.vehicleModel = vehicleModel;
+    this.mainImageUrl = mainImageUrl; // <-- Inicializa la propiedad
     this.ownerFullName = ownerFullName;
     this.pickupLocationAddressSummary = pickupLocationAddressSummary;
   }
