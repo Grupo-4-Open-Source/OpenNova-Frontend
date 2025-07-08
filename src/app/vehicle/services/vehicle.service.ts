@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { Publication} from '../../publications/model/publication.entity';
-import { Vehicle} from '../../publications/model/vehicle.entity';
+import { Vehicle} from '../model/vehicle.entity'; 
 import { BaseService} from '../../shared/services/base.service';
 import { environment } from '../../../environments/environment';
 import { PublicationService} from '../../publications/services/publication.service';
@@ -36,10 +35,10 @@ export class VehicleService extends BaseService<Vehicle> {
 
   /**
    * Obtiene un vehículo específico por su ID.
-   * @param id El ID del vehículo.
+   * @param id El ID del vehículo (ahora number).
    * @returns Un Observable que emite el objeto Vehicle, o undefined si no se encuentra o hay un error.
    */
-  getVehicleById(id: string): Observable<Vehicle | undefined> {
+  getVehicleById(id: number): Observable<Vehicle | undefined> { 
     return this.getById(id).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al cargar vehículo ${id}:`, err);
@@ -50,10 +49,12 @@ export class VehicleService extends BaseService<Vehicle> {
 
   /**
    * Crea un nuevo vehículo en el backend.
-   * @param vehicle Los datos del vehículo a crear (puede incluir el ID si se genera en frontend).
+   * El 'item' debe coincidir con la estructura de CreateVehicleResource del backend.
+   * El ID es generado por el backend, no se envía desde el frontend.
+   * @param vehicle Los datos del vehículo a crear (sin el ID).
    * @returns Un Observable que emite el objeto Vehicle creado.
    */
-  createVehicle(vehicle: Vehicle | Omit<Vehicle, 'id'>): Observable<Vehicle> {
+  createVehicle(vehicle: Omit<Vehicle, 'id'>): Observable<Vehicle> { 
     return this.create(vehicle).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error('Error al crear vehículo:', err);
@@ -64,11 +65,11 @@ export class VehicleService extends BaseService<Vehicle> {
 
   /**
    * Actualiza un vehículo existente.
-   * @param id El ID del vehículo a actualizar.
+   * @param id El ID del vehículo a actualizar (ahora number).
    * @param vehicle Los datos actualizados del vehículo.
    * @returns Un Observable que emite el objeto Vehicle actualizado.
    */
-  updateVehicle(id: string, vehicle: Partial<Vehicle>): Observable<Vehicle> {
+  updateVehicle(id: number, vehicle: Partial<Vehicle>): Observable<Vehicle> {
     return this.update(id, vehicle).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al actualizar vehículo ${id}:`, err);
@@ -79,10 +80,10 @@ export class VehicleService extends BaseService<Vehicle> {
 
   /**
    * Elimina un vehículo por su ID.
-   * @param id El ID del vehículo a eliminar.
+   * @param id El ID del vehículo a eliminar (ahora number).
    * @returns Un Observable que emite la respuesta de la eliminación.
    */
-  deleteVehicle(id: string): Observable<any> {
+  deleteVehicle(id: number): Observable<any> {
     return this.delete(id).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al eliminar vehículo ${id}:`, err);
