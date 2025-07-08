@@ -9,6 +9,9 @@ import { RoleSelectionComponent } from './public/pages/role-selection/role-selec
 import { Component } from '@angular/core';
 import {BookingDetailPageComponent} from './rental/pages/booking-detail/booking-detail.component';
 import {MyBookingsPageComponent} from './rental/pages/my-bookings-page/my-bookings-page.component';
+import {SignInComponent} from "./iam/pages/sign-in/sign-in.component";
+import {SignUpComponent} from "./iam/pages/sign-up/sign-up.component";
+import {authenticationGuard} from "./iam/services/authentication.guard";
 
 @Component({
   selector: 'app-my-bookings-placeholder',
@@ -20,14 +23,16 @@ export class MyBookingsPlaceholderComponent {}
 
 export const routes: Routes = [
   { path: 'select-role', component: RoleSelectionComponent },
-  { path: 'dashboard', component: RenterDashboardComponent },
-  { path: 'owner-dashboard', component: OwnerDashboardComponent },
-  { path: 'publish-vehicle', component: PublishVehicleComponent },
-  {path: 'my-bookings', component: MyBookingsPageComponent},
-  { path: 'my-bookings/details/:id', component: BookingDetailPageComponent },
-  { path: 'rent-vehicle/:publicacionId', component: RentVehicleComponent },
+  { path: 'dashboard', component: RenterDashboardComponent , canActivate: [authenticationGuard]},
+  { path: 'owner-dashboard', component: OwnerDashboardComponent , canActivate: [authenticationGuard]},
+  { path: 'publish-vehicle', component: PublishVehicleComponent , canActivate: [authenticationGuard]},
+  {path: 'my-bookings', component: MyBookingsPageComponent, canActivate: [authenticationGuard]},
+  { path: 'my-bookings/details/:id', component: BookingDetailPageComponent , canActivate: [authenticationGuard] },
+  { path: 'rent-vehicle/:publicacionId', component: RentVehicleComponent , canActivate: [authenticationGuard] },
   { path: 'about', component: AboutComponent },
-  { path: 'my-bookings', component: MyBookingsPlaceholderComponent },
+  { path: 'my-bookings', component: MyBookingsPlaceholderComponent, canActivate: [authenticationGuard] },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'sign-up', component: SignUpComponent},
   { path: '', redirectTo: 'select-role', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
