@@ -1,0 +1,102 @@
+<div class="register-vehicle-page-container">
+  <mat-card class="register-vehicle-card">
+    <mat-card-header>
+      <mat-card-title>Register New Vehicle</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+        <mat-card class="form-section-card">
+          <mat-card-header>
+            <mat-card-title>Vehicle Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Make</mat-label>
+                <input matInput formControlName="make">
+                <mat-error *ngIf="vehicleForm.get('make')?.invalid && (vehicleForm.get('make')?.dirty || vehicleForm.get('make')?.touched)">Make is required.</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Model</mat-label>
+                <input matInput formControlName="model">
+                <mat-error *ngIf="vehicleForm.get('model')?.invalid && (vehicleForm.get('model')?.dirty || vehicleForm.get('model')?.touched)">Model is required.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Year</mat-label>
+                <input matInput type="number" formControlName="year">
+                <mat-error *ngIf="vehicleForm.get('year')?.invalid && (vehicleForm.get('year')?.dirty || vehicleForm.get('year')?.touched)">Year is required.</mat-error>
+                <mat-error *ngIf="vehicleForm.get('year')?.hasError('min') || vehicleForm.get('year')?.hasError('max')">Invalid year.</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Color</mat-label>
+                <input matInput formControlName="color">
+                <mat-error *ngIf="vehicleForm.get('color')?.invalid && (vehicleForm.get('color')?.dirty || vehicleForm.get('color')?.touched)">Color is required.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>License Plate</mat-label>
+                <input matInput formControlName="licensePlate">
+                <mat-error *ngIf="vehicleForm.get('licensePlate')?.invalid && (vehicleForm.get('licensePlate')?.dirty || vehicleForm.get('licensePlate')?.touched)">License plate is required.</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Current Mileage (km)</mat-label>
+                <input matInput type="number" formControlName="currentMileage">
+                <mat-error *ngIf="vehicleForm.get('currentMileage')?.invalid && (vehicleForm.get('currentMileage')?.dirty || vehicleForm.get('currentMileage')?.touched)">Mileage is required.</mat-error>
+                <mat-error *ngIf="vehicleForm.get('currentMileage')?.hasError('min')">Mileage cannot be negative.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Vehicle Type</mat-label>
+                <mat-select formControlName="vehicleType">
+                  <mat-option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="vehicleForm.get('vehicleType')?.invalid && (vehicleForm.get('vehicleType')?.dirty || vehicleForm.get('vehicleType')?.touched)">Vehicle type is required.</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Fuel Type</mat-label>
+                <mat-select formControlName="fuelType">
+                  <mat-option *ngFor="let fuel of fuelTypes" [value]="fuel">{{ fuel }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="vehicleForm.get('fuelType')?.invalid && (vehicleForm.get('fuelType')?.dirty || vehicleForm.get('fuelType')?.touched)">Fuel type is required.</mat-error>
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Passenger Capacity</mat-label>
+              <input matInput type="number" formControlName="passengerCapacity">
+              <mat-error *ngIf="vehicleForm.get('passengerCapacity')?.invalid && (vehicleForm.get('passengerCapacity')?.dirty || vehicleForm.get('passengerCapacity')?.touched)">Capacity is required.</mat-error>
+              <mat-error *ngIf="vehicleForm.get('passengerCapacity')?.hasError('min') || vehicleForm.get('passengerCapacity')?.hasError('max')">Invalid capacity (1–10).</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+              <mat-error *ngIf="vehicleForm.get('description')?.invalid && (vehicleForm.get('description')?.dirty || vehicleForm.get('description')?.touched)">Description is required.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Main Image URL</mat-label>
+              <input matInput formControlName="mainImageUrl">
+              <mat-error *ngIf="vehicleForm.get('mainImageUrl')?.invalid && (vehicleForm.get('mainImageUrl')?.dirty || vehicleForm.get('mainImageUrl')?.touched)">Main image URL is required.</mat-error>
+              <mat-error *ngIf="vehicleForm.get('mainImageUrl')?.hasError('pattern')">Invalid image URL.</mat-error>
+            </mat-form-field>
+            <div *ngIf="imagePreviewUrl" class="image-preview">
+              <img [src]="imagePreviewUrl" alt="Main image preview">
+            </div>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Gallery Image URLs (comma-separated)</mat-label>
+              <input matInput formControlName="galleryImageUrls">
+              <mat-hint>e.g., url1.jpg, url2.png</mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="vehicleForm.invalid || isLoading" class="purple-button">
+          <span *ngIf="!isLoading">Register Vehicle</span>
+          <span *ngIf="isLoading">Registering...</span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
