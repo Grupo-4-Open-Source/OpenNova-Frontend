@@ -1,48 +1,54 @@
-import { Publication} from '../../publications/model/publication.entity';
-import { User} from '../../iam/model/user.entity';
-import { Insurance} from './insurance.entity';
-import { Location} from '../../publications/model/location.entity';
-
 export class Rental {
-  id: string;
-  publicationId: string;
-  renterId: string;
-  bookingDate: string;
-  startDate: string;
-  endDate: string;
-  totalCost: number;
-  baseCost: number;
-  insuranceCost: number;
+  id: number; 
+  publicationId: number; 
+  renterId: string; 
+  bookingDate: string; 
+  startDate: string; 
+  endDate: string; 
+  totalCost: number; 
+  baseCost: number; 
+  insuranceCost: number; 
   platformCommission: number;
   pickupMileage: number;
-  dropoffMileage: number | null;
+  dropoffMileage: number | null; 
   status: string;
-  insuranceId: string;
-  pickupLocationId: string;
-  dropoffLocationId: string;
+  insuranceId: number; 
+  pickupLocationId: string; 
+  dropoffLocationId: string; 
 
-  publication?: Publication;
-  renter?: User;
-  insurance?: Insurance;
-  pickupLocation?: Location;
-  dropoffLocation?: Location;
-
-  constructor() {
-    this.id = '';
-    this.publicationId = '';
-    this.renterId = '';
-    this.bookingDate = '';
-    this.startDate = '';
-    this.endDate = '';
-    this.totalCost = 0;
-    this.baseCost = 0;
-    this.insuranceCost = 0;
-    this.platformCommission = 0;
-    this.pickupMileage = 0;
-    this.dropoffMileage = null;
-    this.status = '';
-    this.insuranceId = '';
-    this.pickupLocationId = '';
-    this.dropoffLocationId = '';
+  constructor(
+    id: number = 0,
+    publicationId: number = 0,
+    renterId: string = '',
+    bookingDate: string = '',
+    startDate: string = '',
+    endDate: string = '',
+    totalCost: number = 0,
+    baseCost: number = 0,
+    insuranceCost: number = 0,
+    platformCommission: number = 0,
+    pickupMileage: number = 0,
+    dropoffMileage: number | null = null,
+    status: string = '',
+    insuranceId: number = 0,
+    pickupLocationId: string = '',
+    dropoffLocationId: string = ''
+  ) {
+    this.id = id;
+    this.publicationId = publicationId;
+    this.renterId = renterId;
+    this.bookingDate = bookingDate;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.totalCost = totalCost;
+    this.baseCost = baseCost;
+    this.insuranceCost = insuranceCost;
+    this.platformCommission = platformCommission;
+    this.pickupMileage = pickupMileage;
+    this.dropoffMileage = dropoffMileage;
+    this.status = status;
+    this.insuranceId = insuranceId;
+    this.pickupLocationId = pickupLocationId;
+    this.dropoffLocationId = dropoffLocationId;
   }
 }
