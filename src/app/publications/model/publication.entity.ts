@@ -1,43 +1,66 @@
-import { Vehicle} from './vehicle.entity';
-import { Location } from './location.entity';
-import { AvailabilitySlot} from './availability-slot.entity';
-import { User} from '../../iam/model/user.entity';
-
 export class Publication {
-  id: string;
+  id: number;
+  externalId: string;
   title: string;
+  description: string;
   dailyPrice: number;
-  weeklyPrice: number | null;
-  minRentalDays: number;
-  maxRentalDays: number;
+  weeklyPrice: number | null; 
+  vehicleId: number; 
+  ownerId: string; 
+  pickupLocationId: string; 
   carRules: string;
   status: string;
-
-  vehicleId: string;
-  ownerId: string;
-  pickupLocationId: string;
   isFeatured: boolean;
-  publicationDate: string;
+  availableFrom: string; 
+  availableUntil: string; 
+  createdAt: string; 
+  updatedAt: string; 
+  vehicleMake: string;
+  vehicleModel: string; 
+  ownerFullName: string; 
+  pickupLocationAddressSummary: string; 
 
-  vehicle?: Vehicle;
-  owner?: User;
-  pickupLocation?: Location;
-  availabilitySlots?: AvailabilitySlot[];
-
-  constructor() {
-    this.id = '';
-    this.title = '';
-    this.dailyPrice = 0;
-    this.weeklyPrice = null;
-    this.minRentalDays = 0;
-    this.maxRentalDays = 0;
-    this.carRules = '';
-    this.status = '';
-    this.vehicleId = '';
-    this.ownerId = '';
-    this.pickupLocationId = '';
-    this.isFeatured = false;
-    this.publicationDate= '';
-    this.availabilitySlots = [];
+  constructor(
+    id: number = 0,
+    externalId: string = '',
+    title: string = '',
+    description: string = '',
+    dailyPrice: number = 0,
+    weeklyPrice: number | null = null,
+    vehicleId: number = 0,
+    ownerId: string = '',
+    pickupLocationId: string = '',
+    carRules: string = '',
+    status: string = '',
+    isFeatured: boolean = false,
+    availableFrom: string = '',
+    availableUntil: string = '',
+    createdAt: string = '',
+    updatedAt: string = '',
+    vehicleMake: string = '',
+    vehicleModel: string = '',
+    ownerFullName: string = '',
+    pickupLocationAddressSummary: string = ''
+  ) {
+    this.id = id;
+    this.externalId = externalId;
+    this.title = title;
+    this.description = description;
+    this.dailyPrice = dailyPrice;
+    this.weeklyPrice = weeklyPrice;
+    this.vehicleId = vehicleId;
+    this.ownerId = ownerId;
+    this.pickupLocationId = pickupLocationId;
+    this.carRules = carRules;
+    this.status = status;
+    this.isFeatured = isFeatured;
+    this.availableFrom = availableFrom;
+    this.availableUntil = availableUntil;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.vehicleMake = vehicleMake;
+    this.vehicleModel = vehicleModel;
+    this.ownerFullName = ownerFullName;
+    this.pickupLocationAddressSummary = pickupLocationAddressSummary;
   }
 }
