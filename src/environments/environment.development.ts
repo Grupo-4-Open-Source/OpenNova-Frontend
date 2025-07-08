@@ -7,7 +7,7 @@ export const environment = {
   serverBasePath: 'http://localhost:8091/api/v1',
   vehiclesEndpointPath: '/vehicles',
   publicationsEndpointPath: '/publications',
-  locationsEndpointPath: '/locations',
+  locationsEndpointPath: '/publications/locations',
   rentalsEndpointPath: '/rentals',
   usersEndpointPath: '/users',
   insurancesEndpointPath: '/insurances'
