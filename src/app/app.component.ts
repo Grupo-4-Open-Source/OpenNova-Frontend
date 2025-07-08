@@ -58,12 +58,18 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     translate.setDefaultLang('en');
     translate.use('en');
-  }
+
+    this.matIconRegistry.addSvgIcon(
+      'logo-icon', 
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
+    );
+      }
 
   ngOnInit(): void {
     this.roleSubscription = this.roleService.currentRole$.subscribe(role => {
       this.currentRole = role;
       this.updateVisibleOptions();
+      // Lógica de redirección (revisar si es demasiado agresiva)
       if (role === 'renter' && this.router.url !== '/dashboard') {
         this.router.navigate(['/dashboard']);
       } else if (role === 'owner' && this.router.url !== '/owner-dashboard') {
