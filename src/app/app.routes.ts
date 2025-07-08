@@ -12,7 +12,7 @@ import {MyBookingsPageComponent} from './rental/pages/my-bookings-page/my-bookin
 import {SignInComponent} from "./iam/pages/sign-in/sign-in.component";
 import {SignUpComponent} from "./iam/pages/sign-up/sign-up.component";
 import {authenticationGuard} from "./iam/services/authentication.guard";
-
+import { RegisterVehicleComponent } from './vehicle/pages/register-vehicle/register-vehicle.component'; 
 @Component({
   selector: 'app-my-bookings-placeholder',
   template: '<h2>My Bookings - Coming Soon!</h2><p>This section is under construction.</p>',
@@ -29,6 +29,7 @@ export const routes: Routes = [
   {path: 'my-bookings', component: MyBookingsPageComponent, canActivate: [authenticationGuard]},
   { path: 'my-bookings/details/:id', component: BookingDetailPageComponent , canActivate: [authenticationGuard] },
   { path: 'rent-vehicle/:publicacionId', component: RentVehicleComponent , canActivate: [authenticationGuard] },
+  { path: 'register-vehicle', component: RegisterVehicleComponent,canActivate: [authenticationGuard]  },
   { path: 'about', component: AboutComponent },
   { path: 'my-bookings', component: MyBookingsPlaceholderComponent, canActivate: [authenticationGuard] },
   { path: 'sign-in', component: SignInComponent },
