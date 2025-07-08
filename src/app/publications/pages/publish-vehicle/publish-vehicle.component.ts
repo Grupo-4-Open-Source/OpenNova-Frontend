@@ -11,17 +11,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subscription, of } from 'rxjs';
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid'; 
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router'; 
 
 import { PublicationService} from '../../services/publication.service';
 import { VehicleService} from '../../../vehicle/services/vehicle.service';
 import { LocationService} from '../../services/location.service';
 
-import { Vehicle} from '../../model/vehicle.entity';
+import { Vehicle} from '../../../vehicle/model/vehicle.entity'; 
 import { Publication} from '../../model/publication.entity';
 import { Location} from '../../model/location.entity';
-import { User} from '../../../iam/model/user.entity';
 import { switchMap, take, catchError, map, debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -40,7 +40,6 @@ import { switchMap, take, catchError, map, debounceTime } from 'rxjs/operators';
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, CommonModule]
 })
-
 export class PublishDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -75,14 +74,11 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
   publishForm: FormGroup;
   unpublishedVehicles: Vehicle[] = [];
   locations: Location[] = [];
-  vehicleTypes: string[] = ['SEDAN', 'SUV', 'HATCHBACK', 'COUPE', 'ELÉCTRICO', 'TRUCK', 'MOTOCICLETA'];
-  fuelTypes: string[] = ['GASOLINA', 'DIESEL', 'ELÉCTRICO', 'HÍBRIDO'];
   isLoading: boolean = false;
-  imagePreviewUrl: string = '';
 
   private formSubscription: Subscription = new Subscription();
 
-  private testOwnerId: string = 'user002';
+  private testOwnerId: string = '1'; 
 
   constructor(
     private fb: FormBuilder,
@@ -90,25 +86,12 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
     private publicacionService: PublicationService,
     private vehicleService: VehicleService,
     private locationService: LocationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router 
   ) {
     this.publishForm = this.fb.group({
-      vehicleSelectionMode: ['new', Validators.required],
-      existingVehicleId: [{ value: '', disabled: true }],
-      vehicleDetails: this.fb.group({
-        make: ['', Validators.required],
-        model: ['', Validators.required],
-        year: [null, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear() + 1)]],
-        color: ['', Validators.required],
-        licensePlate: ['', Validators.required],
-        currentMileage: [null, [Validators.required, Validators.min(0)]],
-        vehicleType: ['', Validators.required],
-        fuelType: ['', Validators.required],
-        passengerCapacity: [null, [Validators.required, Validators.min(1), Validators.max(10)]],
-        description: ['', Validators.required],
-        mainImageUrl: ['', [Validators.required, Validators.pattern(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i)]],
-        galleryImageUrls: ['']
-      }),
+      vehicleSelectionMode: ['existing', Validators.required], 
+      existingVehicleId: ['', Validators.required], // Now always required if 'existing' mode is selected
       publicacionDetails: this.fb.group({
         title: ['', Validators.required],
         dailyPrice: [null, [Validators.required, Validators.min(0.01)]],
@@ -123,12 +106,40 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadUnpublishedVehicles();
+    this.loadLocations();
+
+    this.formSubscription.add(this.publishForm.get('vehicleSelectionMode')?.valueChanges.subscribe(mode => {
+      // If 'new' is selected, navigate to the new vehicle registration page
+      if (mode === 'new') {
+        this.router.navigate(['/register-vehicle']); // Adjust this path as needed
+        // Reset to 'existing' or another default after navigation if you want to prevent
+        // the radio button from staying on 'new'
+        this.publishForm.get('vehicleSelectionMode')?.setValue('existing', { emitEvent: false });
+      }
+      this.toggleExistingVehicleIdControl(mode === 'existing');
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscription.unsubscribe();
+  }
+
+  private loadUnpublishedVehicles(): void {
     this.vehicleService.getUnpublishedVehicles().subscribe({
       next: (data) => {
         this.unpublishedVehicles = data;
         if (this.unpublishedVehicles.length === 0) {
-          this.publishForm.get('vehicleSelectionMode')?.setValue('new');
+          this.publishForm.get('vehicleSelectionMode')?.setValue('new', { emitEvent: false }); 
           this.publishForm.get('vehicleSelectionMode')?.disable();
+          this.publishForm.get('existingVehicleId')?.disable(); 
+          this.snackBar.open('No hay vehículos sin publicar. Por favor, registra uno nuevo primero.', 'Cerrar', { duration: 5000 });
+        } else {
+          this.publishForm.get('vehicleSelectionMode')?.enable();
+          if (!this.publishForm.get('existingVehicleId')?.value && this.unpublishedVehicles.length > 0) {
+             this.publishForm.get('existingVehicleId')?.setValue(this.unpublishedVehicles[0].id);
+          }
+          this.toggleExistingVehicleIdControl(this.publishForm.get('vehicleSelectionMode')?.value === 'existing');
         }
       },
       error: (err) => {
@@ -136,7 +147,9 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
         this.snackBar.open('Error al cargar la lista de vehículos.', 'Cerrar', { panelClass: ['error-snackbar'] });
       }
     });
+  }
 
+  private loadLocations(): void {
     this.locationService.getAllLocations().subscribe({
       next: (data) => {
         this.locations = data;
@@ -146,46 +159,35 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
         this.snackBar.open('Error al cargar la lista de ubicaciones.', 'Cerrar', { panelClass: ['error-snackbar'] });
       }
     });
-
-    this.formSubscription.add(this.publishForm.get('vehicleSelectionMode')?.valueChanges.subscribe(mode => {
-      this.toggleVehicleDetailsFormGroup(mode === 'new');
-    }));
-
-    this.formSubscription.add(this.vehicleDetails.get('mainImageUrl')?.valueChanges.subscribe(url => {
-      this.imagePreviewUrl = url;
-    }));
-  }
-
-  ngOnDestroy(): void {
-    this.formSubscription.unsubscribe();
   }
 
   get vehicleSelectionModeControl(): AbstractControl | null {
     return this.publishForm.get('vehicleSelectionMode');
   }
 
-  get vehicleDetails(): FormGroup {
-    return this.publishForm.get('vehicleDetails') as FormGroup;
-  }
 
   get publicacionDetails(): FormGroup {
     return this.publishForm.get('publicacionDetails') as FormGroup;
   }
 
-  private toggleVehicleDetailsFormGroup(enable: boolean): void {
+  private toggleExistingVehicleIdControl(enable: boolean): void {
     if (enable) {
-      this.vehicleDetails.enable();
+      this.publishForm.get('existingVehicleId')?.enable();
+      this.publishForm.get('existingVehicleId')?.setValidators(Validators.required);
+    } else {
       this.publishForm.get('existingVehicleId')?.disable();
       this.publishForm.get('existingVehicleId')?.setValue('');
-    } else {
-      this.vehicleDetails.disable();
-      this.publishForm.get('existingVehicleId')?.enable();
-      this.vehicleDetails.reset();
-      this.imagePreviewUrl = '';
+      this.publishForm.get('existingVehicleId')?.clearValidators();
     }
+    this.publishForm.get('existingVehicleId')?.updateValueAndValidity();
   }
 
   async onSubmit(): Promise<void> {
+    if (this.vehicleSelectionModeControl?.value !== 'existing') {
+      this.snackBar.open('Selecciona un vehículo existente para publicar.', 'Cerrar', { panelClass: ['error-snackbar'] });
+      return;
+    }
+
     if (this.publishForm.invalid) {
       this.publishForm.markAllAsTouched();
       this.snackBar.open('Por favor, completa todos los campos requeridos correctamente.', 'Cerrar', { panelClass: ['error-snackbar'] });
@@ -193,29 +195,19 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
-    let vehicleToPublish: Vehicle;
+    let vehicleToPublish: Vehicle | undefined;
 
     try {
-      if (this.vehicleSelectionModeControl?.value === 'new') {
-        const newVehicleData: Vehicle = {
-          id: nanoid(),
-          ownerId: this.testOwnerId,
-          ...this.vehicleDetails.value,
-          galleryImageUrls: this.vehicleDetails.get('galleryImageUrls')?.value?.split(',').map((url: string) => url.trim()).filter((url: string) => url !== '') || []
-        };
-        vehicleToPublish = (await this.vehicleService.createVehicle(newVehicleData).toPromise()) as Vehicle;
-        this.snackBar.open('Vehículo creado exitosamente.', 'Cerrar', { panelClass: ['success-snackbar'], duration: 3000 });
-      } else {
-        const selectedVehicleId = this.publishForm.get('existingVehicleId')?.value;
-        if (!selectedVehicleId) {
-          throw new Error('Debes seleccionar un vehículo existente.');
-        }
-        const fetchedVehicle = await this.vehicleService.getVehicleById(selectedVehicleId).toPromise();
-        if (fetchedVehicle) {
-          vehicleToPublish = fetchedVehicle;
-        } else {
-          throw new Error('Vehículo existente no encontrado.');
-        }
+      const selectedVehicleId = this.publishForm.get('existingVehicleId')?.value;
+      if (!selectedVehicleId) {
+        throw new Error('Debes seleccionar un vehículo existente.');
+      }
+      // Fetch the selected vehicle to ensure it's still unpublished and get its details
+      // No need for toPromise(). Just subscribe.
+      vehicleToPublish = await this.vehicleService.getVehicleById(selectedVehicleId).toPromise(); 
+
+      if (!vehicleToPublish) {
+        throw new Error('Vehículo existente no encontrado o ya publicado.');
       }
 
       const selectedLocation = this.locations.find(loc => loc.id === this.publicacionDetails.get('pickupLocationId')?.value);
@@ -223,20 +215,28 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
         throw new Error('La ubicación de recogida seleccionada no es válida.');
       }
 
-      const publicationDate = new Date().toISOString();
-
       const publicacionData: Publication = {
-        id: nanoid(),
-        ...this.publicacionDetails.value,
-        vehicleId: vehicleToPublish.id,
+        id: 0, 
+        externalId: nanoid(), 
+        title: this.publicacionDetails.get('title')?.value,
+        description: '', 
+        dailyPrice: this.publicacionDetails.get('dailyPrice')?.value,
+        weeklyPrice: this.publicacionDetails.get('weeklyPrice')?.value,
+        vehicleId: vehicleToPublish.id, 
         ownerId: this.testOwnerId,
         pickupLocationId: selectedLocation.id,
-        status: 'ACTIVO',
-        availabilitySlots: this.publicacionDetails.get('availabilitySlots')?.value || [],
-        publicationDate: publicationDate,
-        vehicle: undefined,
-        owner: undefined,
-        pickupLocation: undefined
+        carRules: this.publicacionDetails.get('carRules')?.value,
+        status: 'ACTIVE',
+        isFeatured: this.publicacionDetails.get('isFeatured')?.value,
+        availableFrom: new Date().toISOString(), 
+        availableUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(), // Example: Available for 1 year from now
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        vehicleMake: vehicleToPublish.make,
+        vehicleModel: vehicleToPublish.model,
+        mainImageUrl: vehicleToPublish.mainImageUrl,
+        ownerFullName: 'Owner Name Placeholder', 
+        pickupLocationAddressSummary: selectedLocation.addressLine1 + ', ' + selectedLocation.city // Concatenate for summary
       };
 
       await this.publicacionService.createPublication(publicacionData).toPromise();
@@ -244,18 +244,7 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
         data: { title: 'Publicación Exitosa', message: 'Tu vehículo ha sido publicado exitosamente.', isSuccess: true }
       });
       this.publishForm.reset();
-      this.resetFormState();
-      this.vehicleService.getUnpublishedVehicles().subscribe({
-        next: (data) => {
-          this.unpublishedVehicles = data;
-          if (this.unpublishedVehicles.length === 0) {
-            this.publishForm.get('vehicleSelectionMode')?.setValue('new');
-            this.publishForm.get('vehicleSelectionMode')?.disable();
-          } else {
-            this.publishForm.get('vehicleSelectionMode')?.enable();
-          }
-        }
-      });
+      this.resetFormState(); 
     } catch (err: any) {
       console.error('Error en el flujo de publicación:', err);
       this.dialog.open(PublishDialogComponent, {
@@ -268,21 +257,18 @@ export class PublishVehicleComponent implements OnInit, OnDestroy {
 
   private resetFormState(): void {
     this.publishForm.reset({
-      vehicleSelectionMode: 'new',
-      vehicleDetails: {
-        make: '', model: '', year: null, color: '', licensePlate: '',
-        currentMileage: null, vehicleType: '', fuelType: '', passengerCapacity: null,
-        description: '', mainImageUrl: '', galleryImageUrls: ''
-      },
+      vehicleSelectionMode: 'existing', 
+      existingVehicleId: '', // Clear selected existing vehicle
       publicacionDetails: {
         title: '', dailyPrice: null, weeklyPrice: null, minRentalDays: 1, maxRentalDays: 30,
         carRules: '', pickupLocationId: '', isFeatured: false
       }
     });
-    this.toggleVehicleDetailsFormGroup(true);
-    this.imagePreviewUrl = '';
-    this.publishForm.get('vehicleSelectionMode')?.enable();
+    this.loadUnpublishedVehicles(); 
+    this.toggleExistingVehicleIdControl(true); 
+    this.publishForm.get('vehicleSelectionMode')?.enable(); // Ensure radio buttons are enabled
   }
+
   get selectedExistingVehicle(): Vehicle | undefined {
     const selectedId = this.publishForm.get('existingVehicleId')?.value;
     return this.unpublishedVehicles.find(v => v.id === selectedId);
