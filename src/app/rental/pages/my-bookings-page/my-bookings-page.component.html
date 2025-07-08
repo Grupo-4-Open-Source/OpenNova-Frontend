@@ -1,64 +1,68 @@
 <div class="my-bookings-container">
-  <h2>Mis Reservas</h2>
+  <h2>My Bookings</h2>
 
-  <div *ngIf="isLoading" class="loading-message">Cargando tus reservas...</div>
-  <div *ngIf="error" class="error-message">{{ error }}</div>
-
-  <div *ngIf="!isLoading && !error && dataSource.data.length === 0" class="no-data-message">
-    <p>No tienes reservas activas o pasadas.</p>
-    <button mat-raised-button color="primary" routerLink="/explorar">Explorar vehículos</button>
-  </div>
-
-  <div *ngIf="!isLoading && !error && dataSource.data.length > 0" class="bookings-table-wrapper">
-    <mat-form-field appearance="outline" class="filter-input">
-      <mat-label>Buscar reserva</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Yaris" #input>
+  <div class="filter-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Filter bookings</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by vehicle, status, etc." #input>
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+  </div>
 
-    <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+  <div *ngIf="isLoading" class="loading-message">
+    <mat-spinner></mat-spinner>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div class="mat-elevation-z2 table-container" *ngIf="!isLoading && !error && dataSource.data.length > 0">
+    <table mat-table [dataSource]="dataSource" matSort>
+
       <ng-container matColumnDef="vehicleInfo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehículo </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle</th>
         <td mat-cell *matCellDef="let alquiler">
           <div class="vehicle-info-cell">
-            <img [src]="alquiler.publication?.vehicle?.mainImageUrl || 'https://placehold.co/50x50/CCCCCC/000000?text=No+Img'" alt="Imagen del vehículo" class="vehicle-thumbnail">
-            <div>
-              <div class="vehicle-model">{{ alquiler.publication?.vehicle?.make }} {{ alquiler.publication?.vehicle?.model }}</div>
-              <div class="vehicle-plate">{{ alquiler.publication?.vehicle?.licensePlate }}</div>
+            <img [src]="alquiler.vehicle?.mainImageUrl || 'https://placehold.co/50x50/CCCCCC/000000?text=No+Img'" alt="Vehicle image">
+            <div class="text-info">
+              <span>{{ alquiler.vehicle?.make || 'N/A' }} {{ alquiler.vehicle?.model || 'N/A' }}</span>
+              <small>{{ alquiler.vehicle?.licensePlate || 'N/A' }}</small>
             </div>
           </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="dates">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fechas de Alquiler </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dates</th>
         <td mat-cell *matCellDef="let alquiler">
-          {{ alquiler.startDate | date:'mediumDate' }} - {{ alquiler.endDate | date:'mediumDate' }}
+          {{ alquiler.startDate | date:'shortDate' }} - {{ alquiler.endDate | date:'shortDate' }}
           <br>
-          <small>Reservado: {{ alquiler.bookingDate | date:'short' }}</small>
+          <small>Booked: {{ alquiler.bookingDate | date:'short' }}</small>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="totalCost">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo Total </th>
-        <td mat-cell *matCellDef="let alquiler"> ${{ alquiler.totalCost | number:'1.2-2' }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Cost</th>
+        <td mat-cell *matCellDef="let alquiler">${{ alquiler.totalCost | number:'1.2-2' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-        <td mat-cell *matCellDef="let alquiler" [ngClass]="getStatusClass(alquiler.status)">
-          {{ alquiler.status }}
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let alquiler">
+          <span [ngClass]="getStatusClass(alquiler.status)">{{ alquiler.status?.replace('_', ' ') }}</span>
         </td>
       </ng-container>
 
-      <!-- Columna de Acciones -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let alquiler">
-          <button mat-icon-button color="primary" (click)="viewBookingDetails(alquiler.id)" aria-label="Ver detalles">
+          <button mat-icon-button color="primary" (click)="viewBookingDetails(alquiler.id)" aria-label="View details">
             <mat-icon>info</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="cancelBooking(alquiler)" [disabled]="alquiler.status === 'CANCELLED' || alquiler.status === 'COMPLETED'" aria-label="Cancelar reserva">
+          <button mat-icon-button color="warn" (click)="cancelBooking(alquiler)" aria-label="Cancel booking"
+                  [disabled]="alquiler.status === 'CANCELLED' || alquiler.status === 'COMPLETED' || alquiler.status === 'REJECTED'">
             <mat-icon>cancel</mat-icon>
           </button>
         </td>
@@ -66,8 +70,17 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="5">No bookings matching the filter "{{ input.value }}"</td>
+      </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Seleccionar página de reservas"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <div *ngIf="!isLoading && !error && dataSource.data.length === 0" class="no-bookings-message">
+    <p>You currently have no bookings.</p>
+    <button mat-flat-button color="primary" routerLink="/vehicles">Browse Vehicles to Rent</button>
   </div>
 </div>
