@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Observable, forkJoin, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs'; // Eliminamos forkJoin, map, switchMap para simplificar
+import { catchError } from 'rxjs/operators';
 
 import { Rental} from '../model/rental.entity';
-import { Publication} from '../../publications/model/publication.entity';
-import { User} from '../../iam/model/user.entity';
-import { Insurance} from '../model/insurance.entity';
-import { Location} from '../../publications/model/location.entity';
-
 import { BaseService} from '../../shared/services/base.service';
 import { environment } from '../../../environments/environment';
-
 import { PublicationService} from '../../publications/services/publication.service';
 import { UserService} from '../../iam/services/user.service';
 import { InsuranceService } from './insurance.service';
@@ -35,86 +29,13 @@ export class RentalService extends BaseService<Rental> {
   }
 
   /**
-   * Helper method to enrich an Alquiler with its complete Publicacion, Renter (User), Insurance,
-   * PickupLocation, and DropoffLocation objects.
-   * @param rental The raw Alquiler object obtained from the backend.
-   * @returns An Observable that emits the enriched Alquiler object.
-   */
-  private enrichRental(rental: Rental): Observable<Rental> {
-    const observables: {
-      publication?: Observable<Publication | undefined>,
-      renter?: Observable<User | undefined>,
-      insurance?: Observable<Insurance | undefined>,
-      pickupLocation?: Observable<Location | undefined>,
-      dropoffLocation?: Observable<Location | undefined>
-    } = {};
-
-    if (rental.publicationId && !rental.publication) {
-      observables.publication = this.publicationService.getPublicationById(rental.publicationId).pipe(catchError(() => of(undefined)));
-    } else {
-      observables.publication = of(rental.publication);
-    }
-    if (rental.renterId && !rental.renter) {
-      observables.renter = this.userService.getUserById(rental.renterId).pipe(catchError(() => of(undefined)));
-    } else {
-      observables.renter = of(rental.renter);
-    }
-    if (rental.insuranceId && !rental.insurance) {
-      observables.insurance = this.insuranceService.getInsuranceById(rental.insuranceId).pipe(catchError(() => of(undefined)));
-    } else {
-      observables.insurance = of(rental.insurance);
-    }
-    if (rental.pickupLocationId && !rental.pickupLocation) {
-      observables.pickupLocation = this.locationService.getLocationById(rental.pickupLocationId).pipe(catchError(() => of(undefined)));
-    } else {
-      observables.pickupLocation = of(rental.pickupLocation);
-    }
-    if (rental.dropoffLocationId && !rental.dropoffLocation) {
-      observables.dropoffLocation = this.locationService.getLocationById(rental.dropoffLocationId).pipe(catchError(() => of(undefined)));
-    } else {
-      observables.dropoffLocation = of(rental.dropoffLocation);
-    }
-
-    return forkJoin(observables).pipe(
-      map(results => ({
-        ...rental,
-        publication: results.publication ?? rental.publication,
-        renter: results.renter ?? rental.renter,
-        insurance: results.insurance ?? rental.insurance,
-        pickupLocation: results.pickupLocation ?? rental.pickupLocation,
-        dropoffLocation: results.dropoffLocation ?? rental.dropoffLocation
-      })),
-      catchError(err => {
-        console.error(`Error enriching rental ${rental.id}:`, err);
-        return of(rental);
-      })
-    );
-  }
-
-
-  /**
-   * Fetches all rental agreements.
-   * Aplica los parámetros _expand directamente para json-server.
-   * @param params Optional HTTP parameters for filtering.
-   * @returns An Observable that emits an array of Rental objects.
+   * Obtiene todos los alquileres desde el backend.
+   * @param params Parámetros HTTP opcionales para filtrar.
+   * @returns Un Observable que emite un array de objetos Rental.
    */
   getAllRentals(params?: HttpParams): Observable<Rental[]> {
-    let currentParams = params || new HttpParams();
-    currentParams = currentParams.append('_expand', 'publication');
-    currentParams = currentParams.append('_expand', 'renter');
-    currentParams = currentParams.append('_expand', 'insurance');
-    currentParams = currentParams.append('_expand', 'pickupLocation');
-    currentParams = currentParams.append('_expand', 'dropoffLocation');
-
-
-    return this.getAll(currentParams).pipe(
-      switchMap((rawAlquileres: Rental[]) => {
-        if (rawAlquileres.length === 0) {
-          return of([]);
-        }
-        const enrichmentObservables = rawAlquileres.map(alquiler => this.enrichRental(alquiler));
-        return forkJoin(enrichmentObservables);
-      }),
+    // No hay necesidad de añadir _expand aquí. El backend devuelve RentalResource.
+    return this.getAll(params).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error('Error al cargar todos los alquileres:', err);
         return of([]);
@@ -123,18 +44,12 @@ export class RentalService extends BaseService<Rental> {
   }
 
   /**
-   * Fetches a single rental agreement by its ID.
-   * @param id The ID of the rental agreement.
-   * @returns An Observable that emits an Alquiler object.
+   * Obtiene un alquiler específico por su ID.
+   * @param id El ID del alquiler (number).
+   * @returns Un Observable que emite un objeto Rental.
    */
-  getRentalById(id: string): Observable<Rental | undefined> {
+  getRentalById(id: number): Observable<Rental | undefined> { // ID como number
     return this.getById(id).pipe(
-      switchMap((rawAlquiler: Rental | undefined) => {
-        if (!rawAlquiler) {
-          return of(undefined);
-        }
-        return this.enrichRental(rawAlquiler);
-      }),
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al cargar alquiler ${id}:`, err);
         return of(undefined);
@@ -143,13 +58,20 @@ export class RentalService extends BaseService<Rental> {
   }
 
   /**
-   * Creates a new rental agreement.
-   * @param item The Rental object to create.
-   * @returns An Observable that emits the created Rental instance.
+   * Crea un nuevo alquiler.
+   * El 'item' debe coincidir con la estructura de CreateRentalCommand del backend.
+   * Las fechas deben enviarse como cadenas ISO 8601.
+   * @param item Los datos del alquiler a crear (sin el ID).
+   * @returns Un Observable que emite la instancia de Rental creada.
    */
-  createRental(item: Rental): Observable<Rental> {
-    return this.create(item).pipe(
-      map((createdAlquiler: Rental) => createdAlquiler),
+  createRental(item: Omit<Rental, 'id' | 'totalCost' | 'baseCost' | 'insuranceCost' | 'platformCommission' | 'dropoffMileage' | 'status'>): Observable<Rental> {
+    const payload = {
+      ...item,
+      bookingDate: new Date(item.bookingDate).toISOString(),
+      startDate: new Date(item.startDate).toISOString(),
+      endDate: new Date(item.endDate).toISOString(),
+    };
+    return this.create(payload).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error('Error al crear alquiler:', err);
         throw err;
@@ -158,15 +80,21 @@ export class RentalService extends BaseService<Rental> {
   }
 
   /**
-   * Updates an existing rental agreement.
-   * @param id The ID of the rental agreement to update.
-   *
-   * @param item The updated Rental object.
-   * @returns An Observable that emits the updated Rental instance.
+   * Actualiza un alquiler existente.
+   * El 'item' debe coincidir con la estructura de UpdateRentalCommand del backend.
+   * Las fechas deben enviarse como cadenas ISO 8601.
+   * @param id El ID del alquiler a actualizar (number).
+   * @param item Los datos actualizados del alquiler.
+   * @returns Un Observable que emite la instancia de Rental actualizada.
    */
-  updateRental(id: string, item: Partial<Rental>): Observable<Rental> {
-    return this.update(id, item).pipe(
-      map((updatedRental: Rental) => updatedRental),
+  updateRental(id: number, item: Partial<Rental>): Observable<Rental> { // ID como number
+    const payload = { ...item };
+    // Asegúrate de que si las fechas se actualizan, se envíen como ISO strings
+    if (item.startDate) payload.startDate = new Date(item.startDate).toISOString();
+    if (item.endDate) payload.endDate = new Date(item.endDate).toISOString();
+    if (item.bookingDate) payload.bookingDate = new Date(item.bookingDate).toISOString();
+
+    return this.update(id, payload).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al actualizar alquiler ${id}:`, err);
         throw err;
@@ -175,11 +103,11 @@ export class RentalService extends BaseService<Rental> {
   }
 
   /**
-   * Deletes a rental agreement by its ID.
-   * @param id The ID of the rental agreement to delete.
-   * @returns An Observable that emits a void response.
+   * Elimina un alquiler por su ID.
+   * @param id El ID del alquiler a eliminar (number).
+   * @returns Un Observable que emite la respuesta de la eliminación.
    */
-  deleteRental(id: string): Observable<any> {
+  deleteRental(id: number): Observable<any> { // ID como number
     return this.delete(id).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al eliminar alquiler ${id}:`, err);
@@ -190,36 +118,21 @@ export class RentalService extends BaseService<Rental> {
 
   /**
    * Obtiene los alquileres de un usuario específico, filtrados por estado.
-   * @param userId El ID del usuario (arrendatario o propietario).
+   * Asume que el backend tiene un endpoint como GET /rentals/renter/{renterId}?status={status}.
+   * @param userId El ID del usuario (arrendatario - UUID string).
    * @param status El estado de los alquileres a filtrar ('upcoming', 'completed', 'pending', 'all').
-   * @returns Un Observable que emite un array de Alquileres enriquecidos.
+   * @returns Un Observable que emite un array de alquileres.
    */
   getMyRentals(userId: string, status: 'upcoming' | 'completed' | 'pending' | 'all'): Observable<Rental[]> {
-    return this.getAllRentals().pipe(
-      map(allRentals => {
-        let filteredRentals = allRentals.filter(rental => rental.renter?.id === userId);
-        if (status !== 'all') {
-          filteredRentals = filteredRentals.filter((alquiler: Rental) => {
-            const currentDate = new Date();
-            const rentalStartDate = alquiler.startDate ? new Date(alquiler.startDate) : null;
-            const rentalEndDate = alquiler.endDate ? new Date(alquiler.endDate) : null;
+    let params = new HttpParams();
+    if (status !== 'all') {
+      params = params.set('status', status.toUpperCase()); // Convierte a mayúsculas para el enum de backend
+    }
 
-            if (!rentalStartDate || !rentalEndDate) return false;
-
-            switch (status) {
-              case 'upcoming':
-                return (alquiler.status === 'PENDING_OWNER_APPROVAL' || alquiler.status === 'CONFIRMED') && rentalStartDate > currentDate;
-              case 'completed':
-                return alquiler.status === 'COMPLETED' || rentalEndDate < currentDate;
-              case 'pending':
-                return alquiler.status === 'PENDING_OWNER_APPROVAL';
-              default:
-                return true;
-            }
-          });
-        }
-        return filteredRentals;
-      }),
+    return this.http.get<Rental[]>(
+      `${this.resourcePath()}/renter/${userId}`, // Asumiendo esta ruta de endpoint en tu backend
+      { ...this.httpOptions, params: params }
+    ).pipe(
       catchError((err: HttpErrorResponse) => {
         console.error(`Error al obtener alquileres para el usuario ${userId} con estado ${status}:`, err);
         return of([]);
@@ -227,41 +140,25 @@ export class RentalService extends BaseService<Rental> {
     );
   }
 
-
   /**
    * Obtiene los alquileres asociados a los vehículos de un propietario.
-   * @param ownerId El ID del propietario.
+   * Asume que el backend tiene un endpoint como GET /rentals/owner/{ownerId}?status={status}.
+   * @param ownerId El ID del propietario (UUID string).
    * @param status El estado de los alquileres a filtrar ('pending', 'upcoming', 'completed', 'all').
-   * @returns Un Observable que emite un array de Alquileres enriquecidos.
+   * @returns Un Observable que emite un array de alquileres.
    */
   getRentalsForOwner(ownerId: string, status: 'pending' | 'upcoming' | 'completed' | 'all'): Observable<Rental[]> {
-    return this.getAllRentals().pipe(
-      map((allRentals: Rental[]) => {
-        let ownerRentals = allRentals.filter((rental: Rental) => rental.publication?.ownerId === ownerId);
+    let params = new HttpParams();
+    if (status !== 'all') {
+      params = params.set('status', status.toUpperCase()); // Convierte a mayúsculas para el enum de backend
+    }
 
-        if (status !== 'all') {
-          ownerRentals = ownerRentals.filter((rental: Rental) => {
-            const currentDate = new Date();
-            const rentalStartDate = rental.startDate ? new Date(rental.startDate) : null;
-
-            if (!rentalStartDate) return false;
-
-            switch (status) {
-              case 'pending':
-                return rental.status === 'PENDING_OWNER_APPROVAL';
-              case 'upcoming':
-                return (rental.status === 'CONFIRMED') && rentalStartDate > currentDate;
-              case 'completed':
-                return rental.status === 'COMPLETED';
-              default:
-                return true;
-            }
-          });
-        }
-        return ownerRentals;
-      }),
+    return this.http.get<Rental[]>(
+      `${this.resourcePath()}/owner/${ownerId}`, // Asumiendo esta ruta de endpoint en tu backend
+      { ...this.httpOptions, params: params }
+    ).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.error(`Error loading rentals for owner ${ownerId} with status ${status}:`, err);
+        console.error(`Error al cargar alquileres para el propietario ${ownerId} con estado ${status}:`, err);
         return of([]);
       })
     );
